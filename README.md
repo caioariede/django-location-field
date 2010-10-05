@@ -8,7 +8,7 @@
 
     `sudo brew install geos` 
 
-3. Set the correct engine on your `settings.py`, for example:
+3. Open `settings.py` and set the correct engine, according to your database:
 
     `'ENGINE': 'django.contrib.gis.db.backends.mysql'`
 
@@ -22,8 +22,8 @@
         location = LocationField(based_fields=[city], zoom=7)
         objects = models.GeoManager()
 
+Look that you must put `models.GeoManager()` in your model, or some errors will occur.
+
 And syncronize the database:
 
     `./manage.py syncdb`
-
-Look that you must put `models.GeoManager()` in your model, or some errors will occur.
