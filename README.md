@@ -26,4 +26,4 @@ Look that you must put `models.GeoManager()` in your model, or some errors will 
 
 And syncronize the database:
 
-    `./manage.py syncdb`
+    ./manage.py syncdb
