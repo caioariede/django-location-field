@@ -1,6 +1,6 @@
 ** Installation **
 
-1. Put _location_field_ directory in your application root.
+1. Put `location_field` directory in your application root.
 
 2. Install GEOS.
 
