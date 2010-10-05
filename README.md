@@ -21,7 +21,7 @@
     from django.contrib.gis.db import models
     from location_field.models import LocationField
 
-    class Place:
+    class Place(models.Model):
         city = models.CharField(max_length=255)
         location = LocationField(based_fields=[city], zoom=7)
         objects = models.GeoManager()
