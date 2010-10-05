@@ -1,11 +1,12 @@
 from django.db import models
+from django.contrib.gis.db.models import PointField
 
 from forms import LocationField as LocationFormField
 
-class LocationField(models.Field):
+class LocationField(PointField):
     def __init__(self, *args, **kwargs):
         self.based_fields = kwargs.pop('based_fields') if 'based_fields' in kwargs else []
-        self.zoom = kwargs.pop('zoom') if 'zoom' in kwargs else 13
+        self.zoom = kwargs.pop('zoom') if 'zoom' in kwargs else 2
         super(LocationField, self).__init__(*args, **kwargs)
 
     def formfield(self, **kwargs):
@@ -17,5 +18,6 @@ class LocationField(models.Field):
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^location_field\.models\.LocationField"])
+    add_introspection_rules(rules, ["^django\.contrib\.gis"])
 except:
     pass

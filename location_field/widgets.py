@@ -8,6 +8,7 @@ class LocationWidget(widgets.TextInput):
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
+        value = '%s,%s' % (value[0] / 1000000, value[1] / 1000000)
         based_fields = map(lambda f: '$("#id_%s")' % f.name, self.based_fields);
         text_input = super(LocationWidget, self).render(name, value, attrs)
         map_div = u'<div style="margin:4px 0 0 0"><label></label><div id="map_%(name)s" style="width: 500px; height: 250px"></div></div>'\
