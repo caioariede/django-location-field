@@ -1,35 +1,18 @@
 from django.forms import widgets
+from django.utils.safestring import mark_safe
 
-class LocationWidget(widgets.MultiWidget):
+class LocationWidget(widgets.TextInput):
     def __init__(self, attrs=None, **kwargs):
-        based_fields = []
-        zoom = 13
-        if 'based_fields' in kwargs:
-            based_fields = [f.name for f in kwargs['based_fields']]
-        if 'zoom' in kwargs:
-            zoom = kwargs['zoom']
-        txt_widget = widgets.TextInput(attrs=dict(attrs or {}, **{'size': 30}))
-        map_widget = GMapWidget(based_fields, zoom, attrs=attrs)
-        super(LocationWidget, self).__init__((txt_widget, map_widget), attrs)
-
-    def decompress(self, value):
-        return [value, value]
-
-    def format_output(self, widgets_list):
-        return widgets_list[0] + '<div style="margin:4px 0 0 0"><label></label>' + widgets_list[1] + '</div>'
-
-class GMapWidget(widgets.HiddenInput):
-    def __init__(self, based_fields, zoom, attrs=None):
-        self.based_fields = based_fields
-        self.zoom = zoom
-        super(GMapWidget, self).__init__(attrs)
+        self.based_fields = kwargs.pop('based_fields')
+        self.zoom = kwargs.pop('zoom')
+        super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        based_fields = map(lambda f: '$("#id_%s")' % f, self.based_fields);
-        return super(GMapWidget, self).render(name, value, attrs)\
-             + ('<div id="map_%(name)s" style="width: 500px; height: 250px"></div>'\
-             + '<script type="text/javascript">location_field_load($(\'#map_%(name)s\'), $([%(based_fields)s]), %(zoom)d)</script>')\
-             % {'name': name, 'based_fields': ','.join(based_fields), 'zoom': self.zoom}
+        based_fields = map(lambda f: '$("#id_%s")' % f.name, self.based_fields);
+        text_input = super(LocationWidget, self).render(name, value, attrs)
+        map_div = u'<div style="margin:4px 0 0 0"><label></label><div id="map_%(name)s" style="width: 500px; height: 250px"></div></div>'\
+                + u'<script type="text/javascript">location_field_load($(\'#map_%(name)s\'), $([%(based_fields)s]), %(zoom)d)</script>'
+        return mark_safe(text_input + map_div % {'name': name, 'based_fields': ','.join(based_fields), 'zoom': self.zoom})
 
     class Media:
         js = (

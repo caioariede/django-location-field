@@ -5,12 +5,10 @@ function location_field_load(map, location_based, zoom)
     var location_map;
 
     var location_coordinate = parent.find('input[type=text]');
-    var location_coordinate_hidden = parent.find('input[type=hidden]');
 
     function savePosition(point)
     {
         location_coordinate.val(point.lat().toFixed(6) + "," + point.lng().toFixed(6));
-        location_coordinate_hidden.val(point.lat().toFixed(6) + "," + point.lng().toFixed(6));
         location_map.panTo(point);
     }
 
