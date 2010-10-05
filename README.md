@@ -12,6 +12,10 @@
 
     `'ENGINE': 'django.contrib.gis.db.backends.mysql'`
 
+4. Open your root `urls.py` and put the line below:
+
+    `(r'^location_field/', include('location_field.urls')),`
+
 ** Using **
 
     from django.contrib.gis.db import models
