@@ -1,18 +1,19 @@
 from django.db import models
 from django.contrib.gis.db.models import PointField
+from django.contrib.gis.geos import Point
 
-from forms import LocationField as LocationFormField
+from location_field import forms
 
 class LocationField(PointField):
-    def __init__(self, *args, **kwargs):
-        self.based_fields = kwargs.pop('based_fields') if 'based_fields' in kwargs else []
-        self.zoom = kwargs.pop('zoom') if 'zoom' in kwargs else 2
+    def __init__(self, based_fields=[], zoom=2, default=None, *args, **kwargs):
+        self._based_fields = based_fields
+        self._zoom = zoom
+        self._default = default
+        self.default = default
         super(LocationField, self).__init__(*args, **kwargs)
 
     def formfield(self, **kwargs):
-        dwargs = {'form_class': LocationFormField, 'based_fields': self.based_fields, 'zoom': self.zoom, 'model_field': self}
-        dwargs.update(kwargs)
-        return super(LocationField, self).formfield(**dwargs)
+        return super(LocationField, self).formfield(form_class=forms.LocationField, based_fields=self._based_fields, zoom=self._zoom, default=self._default, **kwargs)
 
 # south compatibility
 try:

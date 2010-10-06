@@ -2,13 +2,16 @@ from django.forms import widgets
 from django.utils.safestring import mark_safe
 
 class LocationWidget(widgets.TextInput):
-    def __init__(self, attrs=None, **kwargs):
-        self.based_fields = kwargs.pop('based_fields')
-        self.zoom = kwargs.pop('zoom')
+    def __init__(self, attrs=None, based_fields=None, zoom=None, **kwargs):
+        self.based_fields = based_fields
+        self.zoom = zoom
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        value = '%s,%s' % (value[0] / 1000000, value[1] / 1000000)
+        if value is not None:
+            value = '%s,%s' % (value[0] / 1000000, value[1] / 1000000)
+        else:
+            value = ''
         based_fields = map(lambda f: '$("#id_%s")' % f.name, self.based_fields);
         text_input = super(LocationWidget, self).render(name, value, attrs)
         map_div = u'<div style="margin:4px 0 0 0"><label></label><div id="map_%(name)s" style="width: 500px; height: 250px"></div></div>'\

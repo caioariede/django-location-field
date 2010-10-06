@@ -33,11 +33,6 @@ function location_field_load(map, location_based, zoom)
             }
         }
 
-        if ( ! initial_position)
-        {
-            initial_position = new google.maps.LatLng(1, 1);
-        }
-
         var marker = new google.maps.Marker({
             map: location_map,
             position: initial_position,
