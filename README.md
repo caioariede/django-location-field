@@ -1,10 +1,8 @@
 **Installation**
 
-1. Install through pip:
+1. Install through pip (or manually place it on your `PYTHON_PATH`).
 
-`pip install git+http://github.com/codasus/django-location-field#egg=location_field`
-
-Or manually place it on your `PYTHON_PATH`.
+    `pip install git+http://github.com/codasus/django-location-field#egg=location_field`
 
 2. Install GEOS.
 
@@ -34,7 +32,7 @@ Look that you must put `models.GeoManager()` in your model, or some errors will 
 
 And syncronize the database:
 
-    `./manage.py syncdb`
+`./manage.py syncdb`
 
 **Screenshot**
 
