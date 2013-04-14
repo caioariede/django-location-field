@@ -1,8 +1,7 @@
-from django.db import models
 from django.contrib.gis.db.models import PointField
-from django.contrib.gis.geos import Point
 
 from location_field import forms
+
 
 class LocationField(PointField):
     def __init__(self, based_fields=[], zoom=2, default=None, *args, **kwargs):
@@ -13,12 +12,17 @@ class LocationField(PointField):
         super(LocationField, self).__init__(*args, **kwargs)
 
     def formfield(self, **kwargs):
-        return super(LocationField, self).formfield(form_class=forms.LocationField, based_fields=self._based_fields, zoom=self._zoom, default=self._default, **kwargs)
+        return super(LocationField, self).formfield(
+            form_class=forms.LocationField,
+            based_fields=self._based_fields,
+            zoom=self._zoom,
+            default=self._default,
+            **kwargs)
 
 # south compatibility
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^location_field\.models\.LocationField"])
-    add_introspection_rules(rules, ["^django\.contrib\.gis"])
+    add_introspection_rules([], ["^django\.contrib\.gis"])
 except:
     pass
