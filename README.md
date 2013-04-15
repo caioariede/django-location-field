@@ -3,14 +3,14 @@
 Allows users to input locations based on latitude and longitude, using a
 Google maps widget.
 
-*Currently it does not work with non-Spatial Databases.*
+*This project is currently unusable and under heavy work*
 
 MIT licensed
 
 **Compatibility**
 
 * Django 1.3, 1.4 and 1.5
-* Python 2.6, 2.7
+* Python 2.6, 2.7 and 3.x
 
 It was only tested with PostGIS 1.5+ but may work with other Spatial Databases.
 
