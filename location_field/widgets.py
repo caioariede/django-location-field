@@ -10,6 +10,9 @@ class LocationWidget(widgets.TextInput):
 
     def render(self, name, value, attrs=None):
         if value is not None:
+            if type(value) == str:
+                value = value.split(',')
+
             value = '%s,%s' % (
                 float(value[0]) / 1000000,
                 float(value[1]) / 1000000,

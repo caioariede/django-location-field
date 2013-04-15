@@ -3,7 +3,7 @@ from django.contrib.gis.geos import Point
 from location_field.widgets import LocationWidget
 
 
-class LocationField(fields.CharField):
+class PlainLocationField(fields.CharField):
     def __init__(self, based_fields=None, zoom=None, default=None,
                  *args, **kwargs):
         kwargs['initial'] = default
@@ -24,8 +24,10 @@ class LocationField(fields.CharField):
             if attr in kwargs:
                 dwargs[attr] = kwargs[attr]
 
-        super(LocationField, self).__init__(*args, **dwargs)
+        super(PlainLocationField, self).__init__(*args, **dwargs)
 
+
+class LocationField(PlainLocationField):
     def clean(self, value):
         lat, lng = value.split(',')
         return Point(int(float(lat) * 1000000), int(float(lng) * 1000000))
