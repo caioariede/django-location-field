@@ -14,8 +14,8 @@ class LocationWidget(widgets.TextInput):
                 value = value.split(',')
 
             value = '%s,%s' % (
-                float(value[0]) / 1000000,
-                float(value[1]) / 1000000,
+                float(value[0]),
+                float(value[1]),
             )
         else:
             value = ''
