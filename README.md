@@ -3,8 +3,6 @@
 Allows users to input locations based on latitude and longitude, using a
 Google maps widget.
 
-*This project is currently unusable and under heavy work*
-
 MIT licensed
 
 **Compatibility**
