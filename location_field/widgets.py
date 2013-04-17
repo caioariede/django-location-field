@@ -20,7 +20,14 @@ class LocationWidget(widgets.TextInput):
         else:
             value = ''
 
-        based_fields = map(lambda f: '$("#id_%s")' % f.name, self.based_fields)
+        if '-' not in name:
+            prefix = ''
+        else:
+            prefix = name[:name.rindex('-') + 1]
+
+        based_fields = map(lambda f: \
+            '$("#id_%s")' % (prefix + f.name,), self.based_fields)
+
         text_input = super(LocationWidget, self).render(name, value, attrs)
         map_div = u'''
 <div style="margin:4px 0 0 0">

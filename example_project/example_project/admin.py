@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from .models import Place
+from .models import Chain, Place
 
 
-admin.site.register(Place)
+class PlaceInline(admin.TabularInline):
+    model = Place
+
+
+class ChainAdmin(admin.ModelAdmin):
+    inlines = [
+        PlaceInline,
+    ]
+
+
+admin.site.register(Chain, ChainAdmin)
