@@ -13,4 +13,5 @@ class ChainAdmin(admin.ModelAdmin):
     ]
 
 
+admin.site.register(Place)
 admin.site.register(Chain, ChainAdmin)
