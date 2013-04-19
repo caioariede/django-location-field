@@ -17,7 +17,7 @@ class Place(models.Model):
                                         default=Point(1, 1))
 
     geo_location = LocationField(based_fields=[city], zoom=7,
-                                 default=Point(1, 1))
+                                 default=Point(1, 1), srid=3857)
 
     def __str__(self):
         return self.city

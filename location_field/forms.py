@@ -30,4 +30,4 @@ class PlainLocationField(fields.CharField):
 class LocationField(PlainLocationField):
     def clean(self, value):
         lat, lng = value.split(',')
-        return Point(float(lat), float(lng))
+        return Point(float(lng), float(lat))
