@@ -10,7 +10,7 @@ MIT licensed
 * Django 1.3, 1.4 and 1.5
 * Python 2.6, 2.7 and 3.x
 
-It was only tested with PostGIS 1.5+ but may work with other Spatial Databases.
+It was only tested with PostGIS but may work with other Spatial Databases.
 
 **Installation**
 
@@ -28,7 +28,7 @@ For example, PostGIS:
 
 See the [example project](example_project/).
 
-**Basic usage**
+**Basic usage (using Spatial Database)**
 
     from django.contrib.gis.db import models
     from location_field.models import LocationField
@@ -39,6 +39,15 @@ See the [example project](example_project/).
         objects = models.GeoManager()
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
+
+**Basic usage (without Spatial Database)**
+
+    from django.db import models
+    from location_field.models import PlainLocationField
+
+    class Place(models.Model):
+        city = models.CharField(max_length=255)
+        location = PlainLocationField(based_fields=[city], zoom=7)
 
 **Screenshot**
 
