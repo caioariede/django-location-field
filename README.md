@@ -5,6 +5,12 @@ Google maps widget.
 
 MIT licensed
 
+**Features**
+
+* The map will automatically update after changing a field based on
+* Works with both Spatial and non-Spatial databases
+* Works perfectly with formsets
+
 **Compatibility**
 
 * Django 1.3, 1.4 and 1.5
