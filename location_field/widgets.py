@@ -3,8 +3,6 @@ from django.utils.safestring import mark_safe
 
 
 class LocationWidget(widgets.TextInput):
-    show_input = False
-
     def __init__(self, attrs=None, based_fields=None, zoom=None, **kwargs):
         self.based_fields = based_fields
         self.zoom = zoom
@@ -30,29 +28,27 @@ class LocationWidget(widgets.TextInput):
         else:
             prefix = name[:name.rindex('-') + 1]
 
-        based_fields = map(lambda f: \
-            '$("#id_%s")' % (prefix + f.name,), self.based_fields)
+        based_fields = ','.join(
+            map(lambda f: '#id_' + prefix + f.name, self.based_fields))
+
+        attrs = attrs or {}
+        attrs['data-location-widget'] = name
+        attrs['data-based-fields'] = based_fields
+        attrs['data-zoom'] = self.zoom
+        attrs['data-map'] = '#map_' + name
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
+
         map_div = u'''
 <div style="margin:4px 0 0 0">
+    <label></label>
     <div id="map_%(name)s" style="width: 500px; height: 250px"></div>
 </div>
-<script type="text/javascript">
-    location_field_load(
-        $('#map_%(name)s'), $([%(based_fields)s]), %(zoom)d, %(show_input)d)
-</script>
 '''
-        return mark_safe(text_input + map_div % {
-            'name': name,
-            'based_fields': ','.join(based_fields),
-            'zoom': self.zoom,
-            'show_input': self.show_input,
-        })
+        return mark_safe(text_input + map_div % {'name': name})
 
     class Media:
         js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js',
             'http://maps.google.com/maps/api/js?sensor=false',
             '/location_field/media/form.js',
         )
