@@ -9,8 +9,8 @@ class LocationWidget(widgets.TextInput):
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        if value:
-            if type(value) == str:
+        if value is not None:
+            if isinstance(value, basestring):
                 lat, lng = value.split(',')
             else:
                 lng = value.x
