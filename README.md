@@ -37,6 +37,7 @@ See the [example project](example_project/).
 **Basic usage (using Spatial Database)**
 
     from django.contrib.gis.db import models
+    from django.contrib.gis.geos import Point
     from location_field.models import LocationField
 
     class Place(models.Model):
