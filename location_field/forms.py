@@ -29,5 +29,8 @@ class PlainLocationField(fields.CharField):
 
 class LocationField(PlainLocationField):
     def clean(self, value):
+        if not value:
+            return None
+
         lat, lng = value.split(',')
         return Point(float(lng), float(lat))
