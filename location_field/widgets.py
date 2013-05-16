@@ -49,6 +49,6 @@ class LocationWidget(widgets.TextInput):
 
     class Media:
         js = (
-            'http://maps.google.com/maps/api/js?sensor=false',
+            'https://maps.google.com/maps/api/js?sensor=false',
             '/location_field/media/form.js',
         )
