@@ -48,7 +48,8 @@ class LocationWidget(widgets.TextInput):
         return mark_safe(text_input + map_div % {'name': name})
 
     class Media:
+        # Use schemaless URL so it works with both, http and https websites
         js = (
-            'https://maps.google.com/maps/api/js?sensor=false',
+            '//maps.google.com/maps/api/js?sensor=false',
             '/location_field/media/form.js',
         )
