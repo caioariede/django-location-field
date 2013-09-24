@@ -1,2 +1,6 @@
 .DS_Store
+
 *.pyc
+
+# Useful for testing
+example_project/.venv
