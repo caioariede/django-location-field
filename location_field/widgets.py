@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.forms import widgets
 from django.utils.safestring import mark_safe
 
@@ -51,5 +52,5 @@ class LocationWidget(widgets.TextInput):
         # Use schemaless URL so it works with both, http and https websites
         js = (
             '//maps.google.com/maps/api/js?sensor=false',
-            '/location_field/media/form.js',
+            settings.STATIC_URL + 'location_field/js/form.js',
         )

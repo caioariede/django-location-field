@@ -46,6 +46,7 @@ class PlainLocationField(BaseLocationField, CharField):
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^location_field\.models\.LocationField"])
+    add_introspection_rules([], ["^location_field\.models\.PlainLocationField"])
     add_introspection_rules([], ["^django\.contrib\.gis"])
 except:
     pass
