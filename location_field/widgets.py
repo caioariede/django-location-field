@@ -4,9 +4,10 @@ from django.utils.safestring import mark_safe
 
 
 class LocationWidget(widgets.TextInput):
-    def __init__(self, attrs=None, based_fields=None, zoom=None, **kwargs):
+    def __init__(self, attrs=None, based_fields=None, zoom=None, suffix='', **kwargs):
         self.based_fields = based_fields
         self.zoom = zoom
+        self.suffix = suffix
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
@@ -36,6 +37,7 @@ class LocationWidget(widgets.TextInput):
         attrs['data-location-widget'] = name
         attrs['data-based-fields'] = based_fields
         attrs['data-zoom'] = self.zoom
+        attrs['data-suffix'] = self.suffix
         attrs['data-map'] = '#map_' + name
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
