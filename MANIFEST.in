@@ -1,1 +1,6 @@
+include LICENSE
+include README.md
+
 recursive-include location_field/static *
+recursive-include location_field/contrib *.py
+recursive-include location_field/ *.py
