@@ -5,7 +5,7 @@ import os
 root = os.path.dirname(os.path.abspath(__file__))
 os.chdir(root)
 
-VERSION = '1.1'
+VERSION = '1.2'
 
 # Make data go to the right place.
 # http://groups.google.com/group/comp.lang.python/browse_thread/thread/35ec7b2fed36eaec/2105ee4d9e8042cb
@@ -18,9 +18,9 @@ setup(
     version=VERSION,
     description="Location field for Django",
     long_description="This module provides a location field for Django applications.",
-    author="Codasus Technologies",
-    author_email="contact@codasus.com",
-    url="http://github.com/codasus/django-location-field",
+    author="Caio Ariede",
+    author_email="caio.ariede@gmail.com",
+    url="http://github.com/caioariede/django-location-field",
     license="MIT License",
     platforms=["any"],
     packages=['location_field'],
