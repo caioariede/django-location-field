@@ -26,7 +26,7 @@ setup(
     packages=['location_field'],
     package_data={'location_field': ['static/location_field/js/*.js',],},
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
