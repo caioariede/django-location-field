@@ -5,7 +5,7 @@ import os
 root = os.path.dirname(os.path.abspath(__file__))
 os.chdir(root)
 
-VERSION = '1.2'
+VERSION = __import__('location_field').__version__
 
 # Make data go to the right place.
 # http://groups.google.com/group/comp.lang.python/browse_thread/thread/35ec7b2fed36eaec/2105ee4d9e8042cb
@@ -24,7 +24,7 @@ setup(
     license="MIT License",
     platforms=["any"],
     packages=['location_field'],
-    #data_files=[(template_dir, templates)],
+    package_data={'location_field': ['static/location_field/js/*.js',],},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Web Environment",
