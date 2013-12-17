@@ -9,8 +9,14 @@
 
         function savePosition(point)
         {
-            location_coordinate.val(point.lat().toFixed(6) + "," + point.lng().toFixed(6));
-            location_map.panTo(point);
+            if (point) {
+                location_coordinate.val(point.lat().toFixed(6) + "," + point.lng().toFixed(6));
+                location_map.panTo(point);
+            }
+            else {
+                var point = new google.maps.LatLng(1, 1);
+                location_map.panTo(point)
+            }
         }
 
         function load() {
