@@ -42,7 +42,6 @@ class PlainLocationField(BaseLocationField, CharField):
                                                  zoom=zoom, suffix=suffix, *args, **kwargs)
 
         CharField.__init__(self, max_length=max_length, *args, **kwargs)
-    
 
 # south compatibility
 try:
