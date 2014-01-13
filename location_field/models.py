@@ -5,7 +5,9 @@ from location_field import forms
 
 
 class BaseLocationField(object):
-    def __init__(self, based_fields=[], zoom=2, default=None, suffix='', *args, **kwargs):
+    def __init__(self, based_fields=None, zoom=2, default=None, suffix='', *args, **kwargs):
+        if based_fields is None:
+            based_fields = []
         self._based_fields = based_fields
         self._zoom = zoom
         self._default = default
