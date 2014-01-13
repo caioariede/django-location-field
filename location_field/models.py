@@ -50,5 +50,5 @@ try:
     add_introspection_rules([], ["^location_field\.models\.LocationField"])
     add_introspection_rules([], ["^location_field\.models\.PlainLocationField"])
     add_introspection_rules([], ["^django\.contrib\.gis"])
-except:
+except ImportError:
     pass
