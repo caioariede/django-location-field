@@ -50,7 +50,7 @@ class LocationWidget(widgets.TextInput):
 '''
         return mark_safe(text_input + map_div % {'name': name})
 
-    class Media:
+    class Media(object):
         # Use schemaless URL so it works with both, http and https websites
         js = (
             '//maps.google.com/maps/api/js?sensor=false',
