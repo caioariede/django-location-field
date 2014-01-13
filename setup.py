@@ -12,7 +12,6 @@ VERSION = __import__('location_field').__version__
 for scheme in INSTALL_SCHEMES.values():
     scheme['data'] = scheme['purelib']
 
-
 setup(
     name='django-location-field',
     version=VERSION,
@@ -24,7 +23,9 @@ setup(
     license="MIT License",
     platforms=["any"],
     packages=['location_field'],
-    package_data={'location_field': ['static/location_field/js/*.js',],},
+    package_data={
+        'location_field': ['static/location_field/js/*.js', ],
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
