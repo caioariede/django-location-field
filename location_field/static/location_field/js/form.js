@@ -84,21 +84,25 @@
                         });
                     };
 
-                no_change = true;
-
                 if (f.is('select'))
                     f.change(cb);
                 else
                     f.keyup(cb);
             });
 
-            location_coordinate.focusout(function(){
+            // Prevents querying Google Maps everytime field changes
+            var location_coordinate_delay;
+
+            location_coordinate.keyup(function(){
                 if (no_change) return;
-                var latlng = jQuery(this).val().split(/,/);
+                var latlng = $(this).val().split(/,/);
                 if (latlng.length < 2) return;
-                var latlng = new google.maps.LatLng(latlng[0], latlng[1]);
-                location_map.panTo(latlng)
-                marker.setPosition(latlng)
+                clearTimeout(location_coordinate_delay);
+                location_coordinate_delay = setTimeout(function(){
+                    var ll = new google.maps.LatLng(latlng[0], latlng[1]);
+                    location_map.panTo(ll);
+                    marker.setPosition(ll);
+                }, 1200);
             });
 
             function placeMarker(location) {
