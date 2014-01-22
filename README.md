@@ -32,7 +32,7 @@ For example, PostGIS:
 
 **Configuration**
 
-See the [example project](example_project/).
+See the [example postgis](example_postgis/) and [example sqlite](example_sqlite/).
 
 **Basic usage (using Spatial Database)**
 

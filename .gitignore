@@ -3,7 +3,10 @@
 *.pyc
 
 # Useful for testing
-example_project/.venv
+example_postgis/.venv
+
+example_sqlite/.venv
+example_sqlite/dev.db
 
 # pypi specific
 MANIFEST
