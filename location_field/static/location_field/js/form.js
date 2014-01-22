@@ -92,14 +92,13 @@
                     f.keyup(cb);
             });
 
-            location_coordinate.keyup(function(){
+            location_coordinate.focusout(function(){
                 if (no_change) return;
                 var latlng = jQuery(this).val().split(/,/);
                 if (latlng.length < 2) return;
                 var latlng = new google.maps.LatLng(latlng[0], latlng[1]);
-                geocode_reverse(latlng, function(l){
-                    location_coordinate.val(l.lat()+','+l.lng());
-                });
+                location_map.panTo(latlng)
+                marker.setPosition(latlng)
             });
 
             function placeMarker(location) {
