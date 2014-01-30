@@ -12,16 +12,19 @@ class LocationWidget(widgets.TextInput):
 
     def render(self, name, value, attrs=None):
         if value is not None:
-            if isinstance(value, basestring):
-                lat, lng = value.split(',')
-            else:
-                lng = value.x
-                lat = value.y
+            try:
+                if isinstance(value, basestring):
+                    lat, lng = value.split(',')
+                else:
+                    lng = value.x
+                    lat = value.y
 
-            value = '%s,%s' % (
-                float(lat),
-                float(lng),
-            )
+                value = '%s,%s' % (
+                    float(lat),
+                    float(lng),
+                )
+            except ValueError:
+                value = ''
         else:
             value = ''
 
