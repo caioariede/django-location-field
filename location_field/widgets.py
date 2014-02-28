@@ -2,6 +2,12 @@ from django.conf import settings
 from django.forms import widgets
 from django.utils.safestring import mark_safe
 
+GOOGLE_MAPS_V3_APIKEY = getattr(settings, 'GOOGLE_MAPS_V3_APIKEY', None)
+GOOGLE_API_JS = '//maps.google.com/maps/api/js?sensor=false'
+
+if GOOGLE_MAPS_V3_APIKEY:
+    GOOGLE_API_JS = '{0}&amp;key={0}'.format(GOOGLE_API_JS, GOOGLE_MAPS_V3_APIKEY))
+
 
 class LocationWidget(widgets.TextInput):
     def __init__(self, attrs=None, based_fields=None, zoom=None, suffix='', **kwargs):
@@ -53,6 +59,6 @@ class LocationWidget(widgets.TextInput):
     class Media:
         # Use schemaless URL so it works with both, http and https websites
         js = (
-            '//maps.google.com/maps/api/js?sensor=false',
+            GOOGLE_API_JS,
             settings.STATIC_URL + 'location_field/js/form.js',
         )
