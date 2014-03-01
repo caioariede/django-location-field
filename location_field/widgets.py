@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.forms import widgets
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 GOOGLE_MAPS_V3_APIKEY = getattr(settings, 'GOOGLE_MAPS_V3_APIKEY', None)
@@ -48,13 +49,10 @@ class LocationWidget(widgets.TextInput):
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
 
-        map_div = u'''
-<div style="margin:4px 0 0 0">
-    <label></label>
-    <div id="map_%(name)s" style="width: 500px; height: 250px"></div>
-</div>
-'''
-        return mark_safe(text_input + map_div % {'name': name})
+        return render_to_string('location_field/map_widget', {
+            'field_name': name,
+            'field_input': mark_safe(text_input)
+        })
 
     class Media:
         # Use schemaless URL so it works with both, http and https websites
