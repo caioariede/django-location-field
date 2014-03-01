@@ -49,7 +49,7 @@ class LocationWidget(widgets.TextInput):
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
 
-        return render_to_string('location_field/map_widget', {
+        return render_to_string('location_field/map_widget.html', {
             'field_name': name,
             'field_input': mark_safe(text_input)
         })
