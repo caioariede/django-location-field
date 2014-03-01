@@ -6,7 +6,7 @@ GOOGLE_MAPS_V3_APIKEY = getattr(settings, 'GOOGLE_MAPS_V3_APIKEY', None)
 GOOGLE_API_JS = '//maps.google.com/maps/api/js?sensor=false'
 
 if GOOGLE_MAPS_V3_APIKEY:
-    GOOGLE_API_JS = '{0}&amp;key={0}'.format(GOOGLE_API_JS, GOOGLE_MAPS_V3_APIKEY)
+    GOOGLE_API_JS = '{0}&amp;key={1}'.format(GOOGLE_API_JS, GOOGLE_MAPS_V3_APIKEY)
 
 
 class LocationWidget(widgets.TextInput):
