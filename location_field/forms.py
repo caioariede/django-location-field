@@ -1,5 +1,7 @@
 from django.forms import fields
 from django.contrib.gis.geos import Point
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 from location_field.widgets import LocationWidget
 
 
@@ -32,6 +34,9 @@ class LocationField(PlainLocationField):
         if not value:
             return None
 
-        lat, lng = value.split(',')
-        return Point(float(lng), float(lat))
+        try:
+            lat, lng = value.split(',')
+            return Point(float(lng), float(lat))
+        except ValueError:
+            raise ValidationError(_('Enter a valid pair of coordinates: latitude, longitude'))
 
