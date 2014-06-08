@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.gis.geos import Point
 
-from location_field.models import PlainLocationField
+from location_field.models.plain import PlainLocationField
 
 
 class Chain(models.Model):
