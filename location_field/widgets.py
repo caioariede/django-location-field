@@ -1,3 +1,5 @@
+import six
+
 from django.conf import settings
 from django.forms import widgets
 from django.template.loader import render_to_string
@@ -20,7 +22,7 @@ class LocationWidget(widgets.TextInput):
     def render(self, name, value, attrs=None):
         if value is not None:
             try:
-                if isinstance(value, basestring):
+                if isinstance(value, six.string_types):
                     lat, lng = value.split(',')
                 else:
                     lng = value.x
