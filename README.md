@@ -60,4 +60,4 @@ Look that you must put `models.GeoManager()` in your model, or some errors will 
 
 **Screenshot**
 
-![Screenshot](http://img153.imageshack.us/img153/1914/screenshot20101005at161.png)
+![Screenshot](https://github.com/caioariede/django-location-field/raw/master/screenshot.png)
