@@ -1,7 +1,5 @@
 **Django Location Field**
 
-Current version: 1.5.0
-
 Allows users to input locations based on latitude and longitude, using a
 Google maps widget.
 
@@ -24,7 +22,7 @@ It was only tested with PostGIS but may work with other Spatial Databases.
 
 1. Install through pip (or manually place it on your `PYTHON_PATH`).
 
-    `pip install django-location-field`
+    `pip install django-location-field==1.5.1`
 
 2. Create a Spatial Database
 
