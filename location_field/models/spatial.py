@@ -17,7 +17,7 @@ class LocationField(BaseLocationField, PointField):
 # south compatibility
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^location_field\.models\.LocationField"])
+    add_introspection_rules([], ["^location_field\.models\.spatial.\LocationField"])
     add_introspection_rules([], ["^django\.contrib\.gis"])
 except:
     pass
