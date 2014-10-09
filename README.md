@@ -38,7 +38,7 @@ See the [example postgis](example_postgis/) and [example sqlite](example_sqlite/
 
     from django.contrib.gis.db import models
     from django.contrib.gis.geos import Point
-    from location_field.models import LocationField
+    from location_field.models.spatial import LocationField
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
@@ -50,7 +50,7 @@ Look that you must put `models.GeoManager()` in your model, or some errors will 
 **Basic usage (without Spatial Database)**
 
     from django.db import models
-    from location_field.models import PlainLocationField
+    from location_field.models.plain import PlainLocationField
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
