@@ -5,9 +5,9 @@ from location_field.forms.plain import PlainLocationField
 
 class LocationField(PlainLocationField):
     def clean(self, value):
-        if not value:
+        try:
+            lat, lng = value.split(',')
+            return Point(float(lng), float(lat))
+        except ValueError:
             return None
-
-        lat, lng = value.split(',')
-        return Point(float(lng), float(lat))
 
