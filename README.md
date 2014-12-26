@@ -25,6 +25,7 @@ It was only tested with PostGIS but may work with other Spatial Databases.
     `pip install django-location-field==1.5.2`
 
 2. Create a Spatial Database
+3. Add `location_field` to INSTALLED_APPS your settings.py file
 
 For example, PostGIS:
 
@@ -42,7 +43,7 @@ See the [example postgis](example_postgis/) and [example sqlite](example_sqlite/
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
-        location = LocationField(based_fields=[city], zoom=7, default=Point(1, 1))
+        location = LocationField(based_fields=[city], zoom=7, default='Point(1.0 1.0)')
         objects = models.GeoManager()
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
