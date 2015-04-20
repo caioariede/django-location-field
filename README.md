@@ -22,13 +22,24 @@ It was only tested with PostGIS but may work with other Spatial Databases.
 
 1. Install through pip (or manually place it on your `PYTHON_PATH`).
 
-    `pip install django-location-field==1.5.2`
+    `pip install django-location-field`
 
-2. Create a Spatial Database
+2. Create a Spatial Database (optional)
 
 For example, PostGIS:
 
     https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis/
+
+3. Add to your ```INSTALLED_APPS``` setting
+
+```
+INSTALLED_APPS = (
+    ...
+    'location_field',
+    ...
+)
+```
+
 
 **Configuration**
 
