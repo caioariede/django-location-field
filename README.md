@@ -13,7 +13,7 @@ MIT licensed
 
 **Compatibility**
 
-* Django 1.6 and 1.7
+* Django 1.6, 1.7 and 1.8
 * Python 2.7 and 3.x
 
 It was only tested with PostGIS but may work with other Spatial Databases.
