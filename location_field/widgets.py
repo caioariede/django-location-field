@@ -16,7 +16,7 @@ class LocationWidget(widgets.TextInput):
     def __init__(self, **kwargs):
         attrs = kwargs.pop('attrs', None)
 
-        self.base_fields = kwargs.pop('base_fields', None)
+        self.based_fields = kwargs.pop('based_fields', None)
         self.zoom = kwargs.pop('zoom', None)
         self.suffix = kwargs.pop('suffix', '')
 
