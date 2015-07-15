@@ -66,5 +66,6 @@ class LocationWidget(widgets.TextInput):
         # Use schemaless URL so it works with both, http and https websites
         js = (
             GOOGLE_API_JS,
+            settings.STATIC_URL + 'location_field/js/jquery.livequery.js',
             settings.STATIC_URL + 'location_field/js/form.js',
         )

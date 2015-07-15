@@ -144,13 +144,32 @@
     }
 
 
-    $('input[data-location-widget]').each(function(){
-        var $el = $(this);
+    $('input[data-location-widget]').livequery(function(){
+        var $el = $(this), name = $el.attr('name'), pfx;
 
-        var $map = $($el.attr('data-map')),
-            $based_fields = $($el.attr('data-based-fields')),
-            zoom = parseInt($el.attr('data-zoom')),
-            suffix = $el.attr('data-suffix');
+        try {
+            pfx = name.match(/-(\d+)-/)[1];
+        } catch (e) {};
+
+        var values = {
+            map: $el.attr('data-map'),
+            zoom: $el.attr('data-zoom'),
+            suffix: $el.attr('data-suffix'),
+            based_fields: $el.attr('data-based-fields')
+        }
+
+        if ( ! /__prefix__/.test(name)) {
+            for (key in values) {
+                if (/__prefix__/.test(values[key])) {
+                    values[key] = values[key].replace(/__prefix__/g, pfx);
+                }
+            }
+        }
+
+        var $map = $(values.map),
+            $based_fields = $(values.based_fields),
+            zoom = parseInt(values.zoom),
+            suffix = values.suffix;
 
         location_field_load($map, $based_fields, zoom, suffix);
     });
