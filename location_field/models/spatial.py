@@ -7,9 +7,12 @@ from location_field.models.base import BaseLocationField
 class LocationField(BaseLocationField, PointField):
     formfield_class = forms.LocationField
 
-    def __init__(self, based_fields=None, zoom=None, suffix='', *args, **kwargs):
-        super(LocationField, self).__init__(based_fields=based_fields,
-                                            zoom=zoom, suffix=suffix, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(LocationField, self).__init__(*args, **kwargs)
+
+        kwargs.pop('base_fields', None)
+        kwargs.pop('zoom', None)
+        kwargs.pop('suffix', None)
 
         PointField.__init__(self, *args, **kwargs)
 
@@ -17,7 +20,9 @@ class LocationField(BaseLocationField, PointField):
 # south compatibility
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^location_field\.models\.spatial.\LocationField"])
-    add_introspection_rules([], ["^django\.contrib\.gis"])
+    add_introspection_rules(
+        [], ["^location_field\.models\.spatial.\LocationField"])
+    add_introspection_rules(
+        [], ["^django\.contrib\.gis"])
 except:
     pass

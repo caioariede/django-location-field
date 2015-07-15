@@ -10,4 +10,3 @@ class LocationField(PlainLocationField):
             return Point(float(lng), float(lat))
         except ValueError:
             return None
-
