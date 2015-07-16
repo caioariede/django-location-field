@@ -1,24 +1,28 @@
 import os
 import sys
 
-import django
 
-from django.test.utils import get_runner
-from django.conf import settings
-
+os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_settings'
 
 test_dir = os.path.dirname(__file__)
 sys.path.insert(0, test_dir)
 
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.test_settings'
+import django
 
-django.setup()
+if django.VERSION[1] > 6:
+    django.setup()
 
 
 def runtests():
-    test_runner = get_runner(settings)()
-    failures = test_runner.run_tests(["tests"])
+    from django.test.utils import get_runner
+    from django.conf import settings
+
+    TestRunner = get_runner(settings)
+    test_runner = TestRunner(verbosity=1, interactive=True)
+
+    failures = test_runner.run_tests(['tests'])
+
     sys.exit(bool(failures))
 
 
