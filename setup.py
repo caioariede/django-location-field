@@ -33,4 +33,5 @@ setup(
         'Django>=1.6,<1.9',
         'six',
     ],
+    test_suite="runtests.runtests",
 )
