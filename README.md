@@ -1,11 +1,15 @@
 **Django Location Field**
 
-[![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
-
 Allows users to input locations based on latitude and longitude, using a
 Google maps widget.
 
 MIT licensed
+
+**Status**
+
+[![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
+
+Tests are performed with Python 2.7, Django 1.6 1.7 1.8 and SpatiaLite. We'd like to have automated tests for Python 3 too, but it looks like pysqlite (which is used for testing) does not support it yet, so it's blocking us. You can get more details in the [tox.ini](https://github.com/caioariede/django-location-field/blob/master/tox.ini#L40) file.
 
 **Features**
 
