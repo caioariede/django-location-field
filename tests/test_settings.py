@@ -1,3 +1,6 @@
+import sys
+
+
 SECRET_KEY = 'fake-key'
 
 INSTALLED_APPS = [
@@ -13,4 +16,6 @@ DATABASES = {
 
 STATIC_URL = '/static/'
 
-SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
+
+if sys.platform == 'darwin':
+    SPATIALITE_LIBRARY_PATH = '/usr/local/lib/mod_spatialite.dylib'
