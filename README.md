@@ -26,7 +26,7 @@ It was only tested with PostGIS but may work with other Spatial Databases.
 
 **Installation**
 
-1. Install through pip (or manually place it on your `PYTHON_PATH`).
+1. Install through pip (or manually place it on your `PYTHONPATH`).
 
     `pip install django-location-field`
 
