@@ -1,17 +1,16 @@
 from django.contrib import admin
-
-from .models import Chain, Place
+from dlf_app.models import Place
 
 
 class PlaceInline(admin.TabularInline):
     model = Place
+    extra = 0
 
 
-class ChainAdmin(admin.ModelAdmin):
+class PlaceAdmin(admin.ModelAdmin):
     inlines = [
         PlaceInline,
     ]
 
 
-admin.site.register(Place)
-admin.site.register(Chain, ChainAdmin)
+admin.site.register(Place, PlaceAdmin)
