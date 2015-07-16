@@ -4,6 +4,9 @@ env:
   - TOX_ENV=lnx-Django16
   - TOX_ENV=lnx-Django17
   - TOX_ENV=lnx-Django18
+before_install:
+  - sudo apt-get install sqlite3
+  - sudo apt-get install libsqlite3-dev
 install:
   - pip install 'tox>=2'
 script:
