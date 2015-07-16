@@ -1,5 +1,7 @@
 **Django Location Field**
 
+[![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
+
 Allows users to input locations based on latitude and longitude, using a
 Google maps widget.
 
