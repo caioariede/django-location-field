@@ -1,5 +1,5 @@
 try:
-    from django.conf.urls import patterns  # Django>=1.7
+    from django.conf.urls import patterns  # Django>=1.6
 except ImportError:
     from django.conf.urls.defaults import patterns  # Django<1.6
 
