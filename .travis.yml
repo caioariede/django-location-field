@@ -2,7 +2,6 @@ language: python
 python: 2.7
 sudo: false
 env:
-  - TOX_ENV=lnx-Django16
   - TOX_ENV=lnx-Django17
   - TOX_ENV=lnx-Django18
 addons:
