@@ -8,9 +8,14 @@ env:
 addons:
   apt:
     packages:
+    # sqlite
     - sqlite3
     - libsqlite3-dev
+    # geos
+    - binutils
+    - libproj-dev
+    - gdal-bin
 install:
   - pip install 'tox>=2'
 script:
-  - tox -e $TOX_ENV
+  - tox
