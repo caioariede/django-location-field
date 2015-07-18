@@ -13,6 +13,7 @@ setup(
     author_email="caio.ariede@gmail.com",
     url="http://github.com/caioariede/django-location-field",
     license="MIT",
+    zip_safe=False,
     platforms=["any"],
     packages=find_packages(),
     package_data={'location_field': [
