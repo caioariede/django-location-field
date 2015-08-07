@@ -36,10 +36,6 @@ For example, PostGIS:
 
     https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis/
 
-**Configuration**
-
-See the [example postgis](example_postgis/) and [example sqlite](example_sqlite/).
-
 **Basic usage (using Spatial Database)**
 
     from django.contrib.gis.db import models
