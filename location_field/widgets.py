@@ -17,7 +17,7 @@ class LocationWidget(widgets.TextInput):
         attrs = kwargs.pop('attrs', None)
 
         self.based_fields = kwargs.pop('based_fields', None)
-        self.zoom = kwargs.pop('zoom', None)
+        self.zoom = kwargs.pop('zoom', None) or 7
         self.suffix = kwargs.pop('suffix', '')
 
         super(LocationWidget, self).__init__(attrs)
@@ -46,7 +46,9 @@ class LocationWidget(widgets.TextInput):
             prefix = name[:name.rindex('-') + 1]
 
         based_fields = ','.join(
-            map(lambda f: '#id_' + prefix + f.name, self.based_fields))
+            '#id_' + prefix + (
+                f if isinstance(f, six.string_types) else f.name
+            ) for f in self.based_fields)
 
         attrs = attrs or {}
         attrs['data-location-widget'] = name
