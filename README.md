@@ -1,29 +1,36 @@
-**Django Location Field**
+Django Location Field
+==
 
 Allows users to input locations based on latitude and longitude, using a Google maps widget.
 
+Refer to the **stable** branch if you are looking for a stable release.
+
 MIT licensed
 
-**Status**
+Status
+--
 
 [![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
 
 Tests are performed with Python 2.7, Django 1.7 1.8 and SpatiaLite. We'd like to have automated tests for Python 3 too, but it looks like pysqlite (which is used for testing) does not support it yet, so it's blocking us. You can get more details in the [tox.ini](https://github.com/caioariede/django-location-field/blob/master/tox.ini#L40) file.
 
-**Features**
+Features
+--
 
 * The map will automatically update after changing a field based on
 * Works with both Spatial and non-Spatial databases
 * Works perfectly with formsets
 
-**Compatibility**
+Compatibility
+--
 
-* Django 1.7 and 1.8
-* Python 2.7 and 3.x
+* Django 1.7 to 1.9
+* Python 2.7 to 3.5
 
 It was only tested with PostGIS but may work with other Spatial Databases.
 
-**Installation**
+Installation
+--
 
 1. Install through pip (or manually place it on your `PYTHONPATH`).
 
@@ -36,7 +43,8 @@ For example, PostGIS:
 
     https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/postgis/
 
-**Basic usage (using Spatial Database)**
+Basic usage (using Spatial Database)
+--
 
     from django.contrib.gis.db import models
     from django.contrib.gis.geos import Point
@@ -49,7 +57,8 @@ For example, PostGIS:
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
 
-**Basic usage (without Spatial Database)**
+Basic usage (without Spatial Database)
+--
 
     from django.db import models
     from location_field.models.plain import PlainLocationField
@@ -58,6 +67,7 @@ Look that you must put `models.GeoManager()` in your model, or some errors will 
         city = models.CharField(max_length=255)
         location = PlainLocationField(based_fields=[city], zoom=7)
 
-**Screenshot**
+Screenshot
+--
 
 ![Screenshot](https://github.com/caioariede/django-location-field/raw/master/screenshot.png)
