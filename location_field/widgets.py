@@ -61,6 +61,7 @@ class LocationWidget(widgets.TextInput):
         attrs['data-zoom'] = self.zoom
         attrs['data-suffix'] = self.suffix
         attrs['data-map'] = '#map_' + name
+        attrs['data-map-type'] = 'google'
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
 
@@ -70,17 +71,7 @@ class LocationWidget(widgets.TextInput):
         })
 
     class Media:
-        # Use schemaless URL so it works with both, http and https websites
-        css = {
-            'all': (
-                '//cdn.leafletjs.com/leaflet-0.7.5/leaflet.css',
-            ),
-        }
         js = (
-            # GOOGLE_API_JS,
-            'http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js',
-            'http://maps.google.com/maps/api/js?v=3.2&sensor=false',
-            'http://matchingnotes.com/javascripts/leaflet-google.js',
             settings.STATIC_URL + 'location_field/js/jquery.livequery.js',
             settings.STATIC_URL + 'location_field/js/form.js',
         )
