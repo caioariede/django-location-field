@@ -12,6 +12,11 @@
         var LocationField = {
             options: $.extend({
                 provider: 'google',
+                providerOptions: {
+                    google: {
+                        mapType: 'ROADMAP'
+                    }
+                },
                 searchProvider: 'google',
                 id: 'map',
                 latLng: '0,0',
@@ -206,7 +211,7 @@
                 var map = new L.Map(this.options.id, mapOptions), layer;
 
                 if (this.options.provider == 'google') {
-                    layer = new L.Google('ROADMAP');
+                    layer = new L.Google(this.options.providerOptions.google.mapType);
                 }
                 else if (this.options.provider == 'openstreetmap') {
                     layer = new L.tileLayer(
@@ -292,49 +297,55 @@
         }
     }
 
-    $('input[data-location-widget]').livequery(function(){
+    $('input[data-location-field-options]').livequery(function(){
         var el = $(this);
 
         if ( ! el.is(':visible'))
             return;
 
         var name = el.attr('name'),
-            id = el.attr('data-map'),
-            inputField = '#id_' + name,
-            basedFields = el.attr('data-based-fields'),
-            latLng = el.parent().find(':text').val() || '0,0';
+            options = el.data('location-field-options'),
+            basedFields = options.field_options.based_fields,
+            pluginOptions = {
+                id: 'map_' + name,
+                inputField: el,
+                latLng: el.parent().find(':text').val() || '0,0',
+                suffix: options['search.suffix'],
+                path: options['resources.root_path'],
+                provider: options['map.provider'],
+                searchProvider: options['search.provider'],
+                providerOptions: {
+                    google: {
+                        mapType: options['provider.google.map.type']
+                    }
+                },
+                mapOptions: {
+                    zoom: options['map.zoom']
+                }
+            };
 
-        // get prefix
-        var prefix;
+        // prefix
+        var prefixNumber;
 
         try {
-            prefix = name.match(/-(\d+)-/)[1];
-        } catch (e) {};
+            prefixNumber = name.match(/-(\d+)-/)[1];
+        } catch (e) {}
 
-        // replace prefix
-        if ( ! /__prefix__/.test(name)) {
-            console.log(id, inputField, basedFields);
-            id = id.replace(/__prefix__/, prefix);
-            inputField = inputField.replace(/__prefix__/g, prefix);
-            basedFields = basedFields.replace(/__prefix__/g, prefix);
+        if (prefixNumber != undefined && options.field_options.prefix) {
+            var prefix = options.field_options.prefix.replace(/__prefix__/, prefixNumber);
+
+            basedFields = basedFields.map(function(n){
+                return prefix + n
+            });
         }
+
+        // based fields
+        pluginOptions.basedFields = $(basedFields.map(function(n){
+            return '#id_' + n
+        }).join(','));
 
         // render
-        var options = {
-            id: id,
-            inputField: $(inputField),
-            basedFields: $(basedFields),
-            suffix: el.attr('data-suffix'),
-            path: el.attr('data-path'),
-            latLng: latLng,
-            provider: el.attr('data-map-provider'),
-            searchProvider: el.attr('data-map-search-provider'),
-            mapOptions: {
-                zoom: el.attr('data-zoom')
-            }
-        }
-
-        $.locationField(options).render();
+        $.locationField(pluginOptions).render();
     });
 
 }($ || django.jQuery);
