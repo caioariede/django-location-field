@@ -60,8 +60,10 @@ class LocationWidget(widgets.TextInput):
         attrs['data-based-fields'] = based_fields
         attrs['data-zoom'] = self.zoom
         attrs['data-suffix'] = self.suffix
-        attrs['data-map'] = '#map_' + name
-        attrs['data-map-type'] = 'google'
+        attrs['data-map'] = 'map_' + name
+        attrs['data-map-provider'] = 'google'
+        attrs['data-map-search-provider'] = 'google'
+        attrs['data-path'] = settings.STATIC_URL + 'location_field'
 
         text_input = super(LocationWidget, self).render(name, value, attrs)
 

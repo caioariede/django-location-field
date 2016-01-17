@@ -1,128 +1,220 @@
 !function($){
+    var LocationFieldCache = {
+        load: [],
+        onload: {},
+
+        isLoading: false
+    };
+
+    var LocationFieldResourceLoader;
+
     $.locationField = function(options) {
         var LocationField = {
             options: $.extend({
-                type: 'google',
+                provider: 'google',
+                searchProvider: 'google',
                 id: 'map',
                 latLng: '0,0',
                 mapOptions: {
                     zoom: 9
                 },
-                basedFieldsSelector: [],
+                basedFields: $(),
+                inputField: $(),
                 suffix: '',
+                path: '',
                 fixMarker: true
             }, options),
 
-            types: /google|openstreetmap|mapbox/,
+            providers: /google|openstreetmap|mapbox/,
+            searchProviders: /google/,
 
             render: function() {
-                if ( ! this.types.test(this.options.type)) {
-                    console.error('invalid map type');
+                this.$id = $('#' + this.options.id);
+
+                if ( ! this.providers.test(this.options.provider)) {
+                    this.error('render failed, invalid map provider: ' + this.options.provider);
+                    return;
                 }
 
-                document.getElementById(this.options.id).innerHTML = 'Loading...';
+                if ( ! this.searchProviders.test(this.options.searchProvider)) {
+                    this.error('render failed, invalid search provider: ' + this.options.searchProvider);
+                    return;
+                }
 
                 var self = this;
 
-                this.load[this.options.type](function(){
+                this.loadAll(function(){
                     var mapOptions = self._getMapOptions(),
                         map = self._getMap(mapOptions);
         
-                    self._addMarker(map, mapOptions.center);
+                    var marker = self._getMarker(map, mapOptions.center);
 
                     // fix issue w/ marker not appearing
-                    if (self.options.type == 'google' && self.options.fixMarker)
+                    if (self.options.provider == 'google' && self.options.fixMarker)
                         self.__fixMarker();
+
+                    // watch based fields
+                    self._watchBasedFields(map, marker);
                 });
             },
 
             fill: function(latLng) {
-                console.log(latLng);
+                this.options.inputField.val(latLng.lat + ',' + latLng.lng);
+            },
+
+            search: function(map, marker, address) {
+                var googleGeocodeProvider = new L.GeoSearch.Provider.Google();
+
+                googleGeocodeProvider.GetLocations(address, function(data) {
+                    if (data.length > 0) {
+                        var result = data[0],
+                            latLng = new L.LatLng(result.Y, result.X);
+
+                        marker.setLatLng(latLng);
+                        map.panTo(latLng);
+                    }
+                });
+            },
+
+            loadAll: function(onload) {
+                this.$id.html('Loading...');
+
+                // resource loader
+                if (LocationFieldResourceLoader == undefined)
+                    LocationFieldResourceLoader = SequentialLoader();
+
+                this.load.loader = LocationFieldResourceLoader;
+                this.load.path = this.options.path;
+
+                var self = this;
+
+                this.load.common(function(){
+                    var mapProvider = self.options.provider,
+                        onLoadMapProvider = function() {
+                            var searchProvider = self.options.searchProvider + 'SearchProvider',
+                                onLoadSearchProvider = function() {
+                                    self.$id.html('');
+                                    onload();
+                                };
+
+                            if (self.load[searchProvider] != undefined) {
+                                self.load[searchProvider](onLoadSearchProvider);
+                            }
+                            else {
+                                onLoadSearchProvider();
+                            }
+                        };
+
+                    if (self.load[mapProvider] != undefined) {
+                        self.load[mapProvider](onLoadMapProvider);
+                    }
+                    else {
+                        onLoadMapProvider();
+                    }
+                });
             },
 
             load: {
                 google: function(onload) {
-                    var js = '//maps.google.com/maps/api/js?sensor=false',
-                        self = this;
+                    var js = [
+                            '//maps.google.com/maps/api/js?sensor=false',
+                            this.path + '/leaflet-google.js'
+                        ];
 
-                    this._loadJS(js, function(){
-                        self.leaflet(function(){
-                            js = '//matchingnotes.com/javascripts/leaflet-google.js';
-                            self._loadJS(js, onload);
-                        });
+                    this._loadJSList(js, onload);
+                },
+
+                googleSearchProvider: function(onload) {
+                    var js = [
+                            '//maps.google.com/maps/api/js?sensor=false',
+                            this.path + '/l.geosearch.provider.google.js'
+                        ];
+
+                    this._loadJSList(js, function(){
+                        // https://github.com/smeijer/L.GeoSearch/issues/57#issuecomment-148393974
+                        L.GeoSearch.Provider.Google.Geocoder = new google.maps.Geocoder();
+
+                        onload();
                     });
                 },
 
                 mapbox: function(onload) {
-                    this.leaflet(onload);
+                    onload();
                 },
 
-                leaflet: function(onload) {
+                openstreetmap: function(onload) {
+                    onload();
+                },
+
+                common: function(onload) {
                     var self = this,
                         js = [
-                            'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js',
+                            // map providers
+                            this.path + '/leaflet.js',
+                            // search providers
+                            this.path + '/l.control.geosearch.js',
                         ],
-                        css = 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css';
+                        css = [
+                            // map providers
+                            this.path + '/leaflet.css'
+                        ];
 
                     this._loadJSList(js, function(){
-                        self._loadCSS(css, onload);
+                        self._loadCSSList(css, onload);
                     });
                 },
 
-                _loadJSList: function(srclist, onload) {
-                    if (srclist.length > 1) {
-                        var head = srclist.shift(),
-                            self = this;
-
-                        this._loadJS(head, function(){
-                            self._loadJSList(srclist, onload);
-                        });
-                    }
-                    else {
-                        this._loadJS(srclist[0], onload);
-                    }
+                _loadJS: function(src, onload) {
+                    this.loader.loadJS(src, onload);
                 },
 
-                _loadJS: function(src, onload) {
-                    if (this.__loaded[src] != undefined) {
-                        onload();
-                    }
-                    else {
-                        this.__loaded[src] = 1;
-                        var el = document.createElement('script');
-                        el.type = 'application/javascript';
-                        el.src = src;
-                        el.onload = onload;
-                        document.body.appendChild(el);
-                    }
+                _loadJSList: function(srclist, onload) {
+                    this.__loadList(this._loadJS, srclist, onload);
                 },
 
                 _loadCSS: function(src, onload) {
-                    if (this.__loaded[src] != undefined) {
+                    if (LocationFieldCache.onload[src] != undefined) {
                         onload();
                     }
                     else {
-                        this.__loaded[src] = 1;
+                        LocationFieldCache.onload[src] = 1;
                         onloadCSS(loadCSS(src), onload);
                     }
                 },
 
-                __loaded: {}
+                _loadCSSList: function(srclist, onload) {
+                    this.__loadList(this._loadCSS, srclist, onload);
+                },
+
+                __loadList: function(fn, srclist, onload) {
+                    if (srclist.length > 1) {
+                        for (var i = 0; i < srclist.length-1; ++i) {
+                            fn.call(this, srclist[i], function(){});
+                        }
+                    }
+
+                    fn.call(this, srclist[srclist.length-1], onload);
+                }
+            },
+
+            error: function(message) {
+                console.log(message);
+                this.$id.html(message);
             },
 
             _getMap: function(mapOptions) {
                 var map = new L.Map(this.options.id, mapOptions), layer;
 
-                if (this.options.type == 'google') {
+                if (this.options.provider == 'google') {
                     layer = new L.Google('ROADMAP');
                 }
-                else if (this.options.type == 'openstreetmap') {
+                else if (this.options.provider == 'openstreetmap') {
                     layer = new L.tileLayer(
                         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             maxZoom: 18
                         });
                 }
-                else if (this.options.type == 'mapbox') {
+                else if (this.options.provider == 'mapbox') {
                     layer = new L.tileLayer(
                         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                             maxZoom: 18,
@@ -147,7 +239,7 @@
                 return new L.LatLng(l[0], l[1]);
             },
 
-            _addMarker: function(map, center) {
+            _getMarker: function(map, center) {
                 var self = this,
                     markerOptions = {
                         draggable: true
@@ -164,6 +256,29 @@
                 map.on('click', function(e){
                     marker.setLatLng(e.latlng);
                 });
+
+                return marker;
+            },
+
+            _watchBasedFields: function(map, marker) {
+                var self = this,
+                    onchangeTimer,
+                    onchange = function() {
+                        var value = $(this).val();
+                        clearTimeout(onchangeTimer);
+                        onchangeTimer = setTimeout(function(){
+                            self.search(map, marker, value);
+                        }, 300);
+                    };
+
+                this.options.basedFields.each(function(){
+                    var el = $(this);
+
+                    if (el.is('select'))
+                        el.change(onchange);
+                    else
+                        el.keyup(onchange);
+                });
             },
 
             __fixMarker: function() {
@@ -178,38 +293,109 @@
     }
 
     $('input[data-location-widget]').livequery(function(){
-        var $el = $(this), name = $el.attr('name'),
-            latLng = $el.parent().find(':text').val() || '0,0',
-            pfx;
+        var el = $(this);
+
+        if ( ! el.is(':visible'))
+            return;
+
+        var name = el.attr('name'),
+            id = el.attr('data-map'),
+            inputField = '#id_' + name,
+            basedFields = el.attr('data-based-fields'),
+            latLng = el.parent().find(':text').val() || '0,0';
+
+        // get prefix
+        var prefix;
 
         try {
-            pfx = name.match(/-(\d+)-/)[1];
+            prefix = name.match(/-(\d+)-/)[1];
         } catch (e) {};
 
-        var values = {
-            id: $el.attr('data-map').replace(/^#/, ''),
-            basedFieldsSelector: $el.attr('data-based-fields')
+        // replace prefix
+        if ( ! /__prefix__/.test(name)) {
+            console.log(id, inputField, basedFields);
+            id = id.replace(/__prefix__/, prefix);
+            inputField = inputField.replace(/__prefix__/g, prefix);
+            basedFields = basedFields.replace(/__prefix__/g, prefix);
         }
 
-        if ( ! /__prefix__/.test(name)) {
-            for (key in values) {
-                if (/__prefix__/.test(values[key])) {
-                    values[key] = values[key].replace(/__prefix__/g, pfx);
-                }
+        // render
+        var options = {
+            id: id,
+            inputField: $(inputField),
+            basedFields: $(basedFields),
+            suffix: el.attr('data-suffix'),
+            path: el.attr('data-path'),
+            latLng: latLng,
+            provider: el.attr('data-map-provider'),
+            searchProvider: el.attr('data-map-search-provider'),
+            mapOptions: {
+                zoom: el.attr('data-zoom')
             }
         }
 
-        values.suffix = $el.attr('data-suffix');
-        values.latLng = latLng;
-        values.type = $el.attr('data-map-type');
-        values.mapOptions = {
-            zoom: $el.attr('data-zoom')
-        };
-
-        $.locationField(values).render();
-
+        $.locationField(options).render();
     });
+
 }($ || django.jQuery);
+
+
+var SequentialLoader = function() {
+    var SL = {
+        loadJS: function(src, onload) {
+            //console.log(src);
+            // add to pending list
+            this._load_pending.push({'src': src, 'onload': onload});
+            // check if not already loading
+            if ( ! this._loading) {
+                this._loading = true;
+                // load first
+                this.loadNextJS();
+            }
+        },
+
+        loadNextJS: function() {
+            // get next
+            var next = this._load_pending.shift();
+            if (next == undefined) {
+                // nothing to load
+                this._loading = false;
+                return;
+            }
+            // check not loaded
+            if (this._load_cache[next.src] != undefined) {
+                next.onload();
+                this.loadNextJS();
+                return; // already loaded
+            }
+            else {
+                this._load_cache[next.src] = 1;
+            }
+            // load
+            var el = document.createElement('script');
+            el.type = 'application/javascript';
+            el.src = next.src;
+            // onload callback
+            var self = this;
+            el.onload = function(){
+                //console.log('Loaded: ' + next.src);
+                // trigger onload
+                next.onload();
+                // try to load next
+                self.loadNextJS();
+            };
+            document.body.appendChild(el);
+        },
+
+        _loading: false,
+        _load_pending: [],
+        _load_cache: {}
+    };
+
+    return {
+        loadJS: SL.loadJS.bind(SL)
+    }
+};
 
 
 /*!
