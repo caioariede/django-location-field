@@ -1,11 +1,13 @@
 Django Location Field
 ==
 
-Allows users to input locations based on latitude and longitude, using a Google maps widget.
+Let users pick locations using a map widget and store its latitude and longitude.
 
-Refer to the **stable** branch if you are looking for a stable release.
+**Stable version:** [1.6.1](https://pypi.python.org/pypi/django-location-field)
 
-MIT licensed
+The master branch contains unstable code for the version 2.x, that is not ready for production.
+
+**License:** MIT
 
 Status
 --
@@ -17,9 +19,8 @@ Tests are performed with Python 2.7, Django 1.7 1.8 and SpatiaLite. We'd like to
 Features
 --
 
-* The map will automatically update after changing a field based on
-* Works with both Spatial and non-Spatial databases
-* Works perfectly with formsets
+* Support for multiple map engines, like Google Maps, OpenStreetMap and Mapbox.
+* Works with both Spatial and non-Spatial databases.
 
 Compatibility
 --
@@ -27,7 +28,11 @@ Compatibility
 * Django 1.7 to 1.9
 * Python 2.7 to 3.5
 
-It was only tested with PostGIS but may work with other Spatial Databases.
+Spatial Databases
+--
+
+* PostGIS
+* SpatiaLite
 
 Installation
 --
@@ -36,8 +41,7 @@ Installation
 
     `pip install django-location-field`
 
-2. Create a Spatial Database
-3. Add `location_field` to INSTALLED_APPS your settings.py file
+2. Add `location_field.apps.DefaultConfig` to `INSTALLED_APPS` your **settings.py** file
 
 For example, PostGIS:
 
@@ -52,7 +56,7 @@ Basic usage (using Spatial Database)
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
-        location = LocationField(based_fields=[city], zoom=7, default='Point(1.0 1.0)')
+        location = LocationField(based_fields=['city'], zoom=7, default='Point(1.0 1.0)')
         objects = models.GeoManager()
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
