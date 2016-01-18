@@ -5,9 +5,14 @@ Let users pick locations using a map widget and store its latitude and longitude
 
 **Stable version:** [1.6.1](https://pypi.python.org/pypi/django-location-field)
 
-The master branch contains unstable code for the version 2.x, that is not ready for production.
-
 **License:** MIT
+
+Development Notice
+--
+
+The master branch contains unstable code for the 2.x release, that is not ready for production.
+
+You must refer to the [1.6.1 tag](https://github.com/caioariede/django-location-field/tree/1.6.1) for a stable release.
 
 Status
 --
