@@ -3,13 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to django-location-field's documentation!
-=================================================
+django-location-field's documentation
+=====================================
 
-Contents:
+The **django-location-field** app provides model and form fields, and widgets
+that allows your users to easily pick locations and store in the database.
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
+
+   install
 
 
 
