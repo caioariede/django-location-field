@@ -1,8 +1,9 @@
+***************
 Getting started
-===============
+***************
 
 Installation
-------------
+============
 
 Using pip::
 
@@ -10,7 +11,7 @@ Using pip::
 
 
 Configuration
--------------
+=============
 
 Add ``location_field.apps.DefaultConfig`` to ``INSTALLED_APPS``.
 
