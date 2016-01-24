@@ -18,7 +18,7 @@ Contents
    install
    settings
    formfields
-
+   changelog
 
 
 Indices and tables
