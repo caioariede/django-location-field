@@ -15,14 +15,3 @@ class LocationField(BaseLocationField, PointField):
         kwargs.pop('suffix', None)
 
         PointField.__init__(self, *args, **kwargs)
-
-
-# south compatibility
-try:
-    from south.modelsinspector import add_introspection_rules
-    add_introspection_rules(
-        [], ["^location_field\.models\.spatial.\LocationField"])
-    add_introspection_rules(
-        [], ["^django\.contrib\.gis"])
-except:
-    pass

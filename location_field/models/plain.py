@@ -15,12 +15,3 @@ class PlainLocationField(BaseLocationField, CharField):
         kwargs.pop('suffix', None)
 
         CharField.__init__(self, max_length=max_length, *args, **kwargs)
-
-
-# south compatibility
-try:
-    from south.modelsinspector import add_introspection_rules
-    add_introspection_rules(
-        [], ["^location_field\.models\.plain\.PlainLocationField"])
-except:
-    pass
