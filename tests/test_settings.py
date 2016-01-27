@@ -4,6 +4,7 @@ import sys
 SECRET_KEY = 'fake-key'
 
 INSTALLED_APPS = [
+    "location_field.apps.DefaultConfig",
     "tests",
 ]
 
