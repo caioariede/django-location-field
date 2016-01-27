@@ -14,10 +14,7 @@ class LocationWidget(widgets.TextInput):
 
         self.options = dict(settings.LOCATION_FIELD)
         self.options['field_options'] = {
-            'based_fields': [
-                f if isinstance(f, six.string_types) else f.name
-                for f in kwargs.pop('based_fields', [])
-            ],
+            'based_fields': kwargs.pop('based_fields'),
         }
 
         super(LocationWidget, self).__init__(attrs)

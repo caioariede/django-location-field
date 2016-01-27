@@ -21,7 +21,8 @@ From 1.x to 2.x
 Backward incompatible changes
 """""""""""""""""""""""""""""
 
-- Starting in the 2.x version, the form fields do not accept the ``default``
-  parameter anymore. If you are using them directly, without the model field,
-  you have to replace the ``default`` parameter by the well known standard
-  parameter ``initial``.
+- Form fields no longer accepts the ``default`` parameter. If you are using
+  them directly, without the model field, you have to replace the ``default``
+  parameter by the well known standard parameter ``initial``.
+- The ``based_fields`` parameter of model fields now only expects field names
+  as strings and not field instances.

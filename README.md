@@ -61,7 +61,7 @@ Basic usage (using Spatial Database)
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
-        location = LocationField(based_fields=['city'], zoom=7, default='Point(1.0 1.0)')
+        location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
         objects = models.GeoManager()
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
@@ -74,7 +74,7 @@ Basic usage (without Spatial Database)
 
     class Place(models.Model):
         city = models.CharField(max_length=255)
-        location = PlainLocationField(based_fields=[city], zoom=7)
+        location = PlainLocationField(based_fields=['city'], zoom=7)
 
 Screenshot
 --
