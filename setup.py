@@ -36,7 +36,7 @@ setup(
         'Django>=1.7,<1.9',
         'six',
     ],
-    test_requires=[
+    tests_require=[
         'pyquery',
     ],
     test_suite="runtests.runtests",
