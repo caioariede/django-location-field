@@ -33,6 +33,17 @@ class LocationFieldTest(TestCase):
         for key, value in location_field_opts.items():
             self.assertEqual(value, opts[key])
 
+    def test_custom_resources(self):
+        form = LocationForm(initial={})
+
+        self.assertIn('jquery.livequery.js', str(form.media))
+        self.assertIn('form.js', str(form.media))
+
+        with self.settings(LOCATION_FIELD={
+                'resources.media': {'js': ['foo.js', 'bar.js']}}):
+            self.assertIn('foo.js', str(form.media))
+            self.assertIn('bar.js', str(form.media))
+
 
 if settings.TEST_SPATIAL:
     from . import spatial_test
