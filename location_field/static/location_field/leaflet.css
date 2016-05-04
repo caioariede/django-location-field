@@ -477,3 +477,14 @@
 	background: #fff;
 	border: 1px solid #666;
 	}
+
+
+/* fix map marker not showing http://stackoverflow.com/a/27560956/1738761 */
+.leaflet-map-pane {
+	z-index: 2 !important;
+	}
+
+.leaflet-google-layer {
+	z-index: 1 !important;
+	}
+
