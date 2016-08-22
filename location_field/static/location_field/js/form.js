@@ -1,4 +1,4 @@
-($ || django.jQuery)(function($){
+(jQuery || django.jQuery)(function($){
     function location_field_load(map, location_based, zoom, suffix)
     {
         var parent = map.parent().parent();
