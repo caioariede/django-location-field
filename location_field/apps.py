@@ -15,4 +15,8 @@ class DefaultConfig(AppConfig):
         if not hasattr(settings, 'LOCATION_FIELD'):
             settings.LOCATION_FIELD = LOCATION_FIELD
         else:
-            settings.LOCATION_FIELD.update(LOCATION_FIELD)
+            # This way values from settings.LOCATION_FIELD have priority.
+            # In Python 3.5 this can be done in one line as in:
+            # settings.LOCATION_FIELD = {**LOCATION_FIELD, **settings.LOCATION_FIELD}
+            LOCATION_FIELD.update(settings.LOCATION_FIELD)
+            settings.LOCATION_FIELD = LOCATION_FIELD
