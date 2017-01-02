@@ -122,7 +122,7 @@
             load: {
                 google: function(onload) {
                     var js = [
-                            '//maps.google.com/maps/api/js?sensor=false',
+                            '//maps.google.com/maps/api/js?key=' + options.providerOptions.google.apiKey,
                             this.path + '/leaflet-google.js'
                         ];
 
@@ -131,7 +131,7 @@
 
                 googleSearchProvider: function(onload) {
                     var js = [
-                            '//maps.google.com/maps/api/js?sensor=false',
+                            '//maps.google.com/maps/api/js?key=' + options.providerOptions.google.apiKey,
                             this.path + '/l.geosearch.provider.google.js'
                         ];
 
@@ -316,6 +316,7 @@
                 searchProvider: options['search.provider'],
                 providerOptions: {
                     google: {
+                        apiKey: options['provider.google.api_key'],
                         mapType: options['provider.google.map.type']
                     }
                 },
