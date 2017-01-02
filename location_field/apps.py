@@ -12,7 +12,7 @@ class DefaultConfig(AppConfig):
         self.patch_settings()
 
     def patch_settings(self):
-        if not hasattr(settings, 'LOCATION_FIELD'):
-            settings.LOCATION_FIELD = LOCATION_FIELD
-        else:
-            settings.LOCATION_FIELD.update(LOCATION_FIELD)
+        config = LOCATION_FIELD.copy()
+        config.update(getattr(settings, 'LOCATION_FIELD', {}))
+
+        settings.LOCATION_FIELD = config
