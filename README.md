@@ -56,26 +56,30 @@ For example, PostGIS:
 Basic usage (using Spatial Database)
 --
 
-    from django.contrib.gis.db import models
-    from django.contrib.gis.geos import Point
-    from location_field.models.spatial import LocationField
+```python
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
+from location_field.models.spatial import LocationField
 
-    class Place(models.Model):
-        city = models.CharField(max_length=255)
-        location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
-        objects = models.GeoManager()
+class Place(models.Model):
+    city = models.CharField(max_length=255)
+    location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
+    objects = models.GeoManager()
+```
 
 Look that you must put `models.GeoManager()` in your model, or some errors will occur.
 
 Basic usage (without Spatial Database)
 --
 
-    from django.db import models
-    from location_field.models.plain import PlainLocationField
+```python
+from django.db import models
+from location_field.models.plain import PlainLocationField
 
-    class Place(models.Model):
-        city = models.CharField(max_length=255)
-        location = PlainLocationField(based_fields=['city'], zoom=7)
+class Place(models.Model):
+    city = models.CharField(max_length=255)
+    location = PlainLocationField(based_fields=['city'], zoom=7)
+```
 
 Screenshot
 --
