@@ -15,4 +15,4 @@ class DefaultConfig(AppConfig):
         if not hasattr(settings, 'LOCATION_FIELD'):
             settings.LOCATION_FIELD = LOCATION_FIELD
         else:
-            settings.LOCATION_FIELD.update(LOCATION_FIELD)
+            settings.LOCATION_FIELD = dict(LOCATION_FIELD.items() + settings.LOCATION_FIELD.items())
