@@ -3,24 +3,16 @@ Django Location Field
 
 Let users pick locations using a map widget and store its latitude and longitude.
 
-**Stable version:** [1.6.1](https://pypi.python.org/pypi/django-location-field/1.6.1)  
-**Beta version:** [2.0.0b0](https://pypi.python.org/pypi/django-location-field/2.0.0b0)
+**Stable version:** [1.6.1](https://pypi.python.org/pypi/django-location-field/2.0.1)  
 
 **License:** MIT
-
-Development Notice
---
-
-The master branch contains unstable code for the 2.x release, that is not ready for production.
-
-You must refer to the [1.6.1 tag](https://github.com/caioariede/django-location-field/tree/1.6.1) for a stable release.
 
 Status
 --
 
 [![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
 
-Tests are performed with Python 2.7, Django 1.7 1.8 and SpatiaLite. We'd like to have automated tests for Python 3 too, but it looks like pysqlite (which is used for testing) does not support it yet, so it's blocking us. You can get more details in the [tox.ini](https://github.com/caioariede/django-location-field/blob/master/tox.ini#L40) file.
+Tests are performed with Python 2.7, Django 1.8 .. 1.10 and SpatiaLite. We'd like to have automated tests for Python 3 too, but it looks like pysqlite (which is used for testing) does not support it yet, so it's blocking us. You can get more details in the [tox.ini](https://github.com/caioariede/django-location-field/blob/master/tox.ini#L40) file.
 
 Features
 --
@@ -31,7 +23,7 @@ Features
 Compatibility
 --
 
-* Django 1.7 to 1.9
+* Django 1.8 to 1.10
 * Python 2.7 to 3.5
 
 Spatial Databases
