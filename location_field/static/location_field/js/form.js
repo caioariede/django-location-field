@@ -14,6 +14,7 @@
                 provider: 'google',
                 providerOptions: {
                     google: {
+                        api: '//maps.google.com/maps/api/js',
                         mapType: 'ROADMAP'
                     }
                 },
@@ -103,7 +104,7 @@
                                 };
 
                             if (self.load[searchProvider] != undefined) {
-                                self.load[searchProvider](onLoadSearchProvider);
+                                self.load[searchProvider](self.options.providerOptions[self.options.searchProvider] || {}, onLoadSearchProvider);
                             }
                             else {
                                 onLoadSearchProvider();
@@ -111,7 +112,7 @@
                         };
 
                     if (self.load[mapProvider] != undefined) {
-                        self.load[mapProvider](onLoadMapProvider);
+                        self.load[mapProvider](self.options.providerOptions[mapProvider] || {}, onLoadMapProvider);
                     }
                     else {
                         onLoadMapProvider();
@@ -120,18 +121,32 @@
             },
 
             load: {
-                google: function(onload) {
-                    var js = [
-                            '//maps.google.com/maps/api/js?sensor=false',
+                    google: function(options, onload) {
+                        var url = options.api;
+
+                        if (typeof options.apiKey !== 'undefined') {
+                            url += url.indexOf('?') === -1 ? '?' : '&';
+                            url += 'key=' + options.apiKey;
+                        }
+
+                        var js = [
+                            url,
                             this.path + '/leaflet-google.js'
                         ];
 
                     this._loadJSList(js, onload);
                 },
 
-                googleSearchProvider: function(onload) {
+                googleSearchProvider: function(options, onload) {
+                    var url = options.api;
+
+                    if (typeof options.apiKey !== 'undefined') {
+                        url += url.indexOf('?') === -1 ? '?' : '&';
+                        url += 'key=' + options.apiKey;
+                    }
+
                     var js = [
-                            '//maps.google.com/maps/api/js?sensor=false',
+                            url,
                             this.path + '/l.geosearch.provider.google.js'
                         ];
 
@@ -143,11 +158,11 @@
                     });
                 },
 
-                mapbox: function(onload) {
+                mapbox: function(options, onload) {
                     onload();
                 },
 
-                openstreetmap: function(onload) {
+                openstreetmap: function(options, onload) {
                     onload();
                 },
 
@@ -316,7 +331,9 @@
                 searchProvider: options['search.provider'],
                 providerOptions: {
                     google: {
-                        mapType: options['provider.google.map.type']
+                        api: options['provider.google.api'],
+                        apiKey: options['provider.google.api_key'],
+                        mapType: options['provider.google.map_type']
                     }
                 },
                 mapOptions: {

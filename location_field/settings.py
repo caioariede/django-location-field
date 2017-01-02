@@ -10,10 +10,9 @@ LOCATION_FIELD = {
     'search.suffix': '',
 
     # Google
-    'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
+    'provider.google.api': '//maps.google.com/maps/api/js',
     'provider.google.api_key': '',
-    'provider.google.api_libraries': '',
-    'provider.google.map.type': 'ROADMAP',
+    'provider.google.map_type': 'ROADMAP',
 
     # Mapbox
     'provider.mapbox.access_token': '',
