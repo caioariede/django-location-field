@@ -348,7 +348,7 @@
         $.locationField(pluginOptions).render();
     });
 
-}($ || django.jQuery);
+}(jQuery || django.jQuery);
 
 
 var SequentialLoader = function() {
