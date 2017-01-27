@@ -8,7 +8,7 @@ TEST_SPATIAL = 'TEST_SPATIAL' in os.environ
 SECRET_KEY = 'fake-key'
 
 INSTALLED_APPS = [
-    "location_field.apps.DefaultConfig",
+    "location_field",
     "tests",
 ]
 
