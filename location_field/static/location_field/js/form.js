@@ -312,11 +312,16 @@
         }
     }
 
-    $('input[data-location-field-options]').livequery(function(){
+    $('input[data-location-field-options]:visible').livequery(function(){
         var el = $(this);
 
         if ( ! el.is(':visible'))
             return;
+
+        if (el.hasClass('location-field-processed'))
+            return;
+
+        el.addClass('location-field-processed');
 
         var name = el.attr('name'),
             options = el.data('location-field-options'),
