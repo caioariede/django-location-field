@@ -238,7 +238,7 @@
                     layer = new L.tileLayer(
                         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                             maxZoom: 18,
-                            accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ',
+                            accessToken: this.options.providerOptions.mapbox.access_token,
                             id: 'mapbox.streets'
                         });
                 }
@@ -334,6 +334,9 @@
                         api: options['provider.google.api'],
                         apiKey: options['provider.google.api_key'],
                         mapType: options['provider.google.map_type']
+                    },
+                    mapbox: {
+                        access_token: options['provider.mapbox.access_token']
                     }
                 },
                 mapOptions: {
