@@ -282,16 +282,21 @@
 
             _watchBasedFields: function(map, marker) {
                 var self = this,
+                    basedFields = this.options.basedFields,
                     onchangeTimer,
                     onchange = function() {
-                        var value = $(this).val();
+                        var values = basedFields.map(function() {
+                            var value = $(this).val();
+                            return value === '' ? null : value;
+                        });
+                        var address = values.toArray().join(', ');
                         clearTimeout(onchangeTimer);
                         onchangeTimer = setTimeout(function(){
-                            self.search(map, marker, value);
+                            self.search(map, marker, address);
                         }, 300);
                     };
 
-                this.options.basedFields.each(function(){
+                basedFields.each(function(){
                     var el = $(this);
 
                     if (el.is('select'))
