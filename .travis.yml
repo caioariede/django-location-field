@@ -1,21 +1,45 @@
+# Travis setup to work with Python 2, Python 3, GDAL and SpatiaLite
+# Based on: https://github.com/postfalk/travisgis/blob/master/.travis.yml
+dist: xenial
+
 language: python
-python: 2.7
-sudo: false
-env:
-  - TOX_ENV=lnx-Django18
-  - TOX_ENV=lnx-Django19
-  - TOX_ENV=lnx-Django110
-addons:
-  apt:
-    packages:
-    # sqlite
-    - sqlite3
-    - libsqlite3-dev
-    # geos
-    - binutils
-    - libproj-dev
-    - gdal-bin
+
+python:
+  - "2.7"
+
+matrix:
+  include:
+    - python: 2.7
+      env:
+        - TOX_ENV=dj18
+        - TOX_ENV=dj19
+        - TOX_ENV=dj110
+        - TOX_ENV=dj111
+
+virtualenv:
+  system_site_packages: true
+
+before_install:
+  # update packages
+  - "sudo apt-get update -y"
+
+  # install python packages
+  - "sudo apt install -y python-dev python3-dev python-pip"
+
+  # install gdal
+  - "sudo apt install -y libgdal-dev libproj-dev libproj-dev"
+
+  # spatialite deps (see https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/)
+  - "sudo apt install -y libsqlite3-dev spatialite-bin libsqlite3-mod-spatialite"
+
 install:
-  - pip install 'tox>=2'
+  - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install --global-option=build_ext --global-option='-USQLITE_OMIT_LOAD_EXTENSION' pysqlite; fi
+
+  # install python gdal package (version must match installed GDAL lib)
+  - CFLAGS=-I/usr/include/gdal pip install GDAL==$(gdal-config --version | cut -d. -f1-2).*
+
+  # other dependencies
+  - pip install tox
+
 script:
   - tox -e $TOX_ENV
