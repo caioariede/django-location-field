@@ -4,12 +4,15 @@ language: python
 
 python:
   - "2.7"
-  - "3.6"
 
-env:
-  - TOX_ENV=lnx-Django18
-  - TOX_ENV=lnx-Django19
-  - TOX_ENV=lnx-Django110
+matrix:
+  include:
+    - python: 2.7
+      env:
+        - TOX_ENV=dj18
+        - TOX_ENV=dj19
+        - TOX_ENV=dj110
+        - TOX_ENV=dj111
 
 virtualenv:
   system_site_packages: true
