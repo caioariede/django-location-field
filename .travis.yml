@@ -36,7 +36,7 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install --global-option=build_ext --global-option='-USQLITE_OMIT_LOAD_EXTENSION' pysqlite; fi
 
   # install python gdal package (version must match installed GDAL lib)
-  - CFLAGS=-I/usr/include/gdal pip install GDAL==$(gdal-config --version)
+  - CFLAGS=-I/usr/include/gdal pip install GDAL==$(gdal-config --version | cut -d. -f1-2).*
 
   # other dependencies
   - pip install tox
