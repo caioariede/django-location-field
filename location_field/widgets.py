@@ -19,7 +19,7 @@ class LocationWidget(widgets.TextInput):
 
         super(LocationWidget, self).__init__(attrs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
                 if isinstance(value, six.string_types):
