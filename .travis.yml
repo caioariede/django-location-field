@@ -1,5 +1,7 @@
 # Travis setup to work with Python 2, Python 3, GDAL and SpatiaLite
 # Based on: https://github.com/postfalk/travisgis/blob/master/.travis.yml
+dist: xenial
+
 language: python
 
 python:
