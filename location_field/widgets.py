@@ -48,10 +48,10 @@ class LocationWidget(widgets.TextInput):
         attrs['data-location-field-options'] = json.dumps(self.options)
 
         # Django added renderer parameter in 1.11, made it mandatory in 2.1
-        try:
-            text_input = super(LocationWidget, self).render(name, value, attrs=attrs, renderer=renderer)
-        except TypeError:
-            text_input = super(LocationWidget, self).render(name, value, attrs=attrs)
+        kwargs = {}
+        if renderer is not None:
+            kwargs['renderer'] = renderer
+        text_input = super(LocationWidget, self).render(name, value, attrs=attrs, **kwargs)
 
         return render_to_string('location_field/map_widget.html', {
             'field_name': name,
