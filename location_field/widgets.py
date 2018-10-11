@@ -19,7 +19,7 @@ class LocationWidget(widgets.TextInput):
 
         super(LocationWidget, self).__init__(attrs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
                 if isinstance(value, six.string_types):
@@ -47,7 +47,11 @@ class LocationWidget(widgets.TextInput):
         attrs = attrs or {}
         attrs['data-location-field-options'] = json.dumps(self.options)
 
-        text_input = super(LocationWidget, self).render(name, value, attrs)
+        # Django added renderer parameter in 1.11, made it mandatory in 2.1
+        kwargs = {}
+        if renderer is not None:
+            kwargs['renderer'] = renderer
+        text_input = super(LocationWidget, self).render(name, value, attrs=attrs, **kwargs)
 
         return render_to_string('location_field/map_widget.html', {
             'field_name': name,
