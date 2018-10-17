@@ -32,7 +32,7 @@
             }, options),
 
             providers: /google|openstreetmap|mapbox/,
-            searchProviders: /google/,
+            searchProviders: /google|yandex/,
 
             render: function() {
                 this.$id = $('#' + this.options.id);
@@ -52,7 +52,7 @@
                 this.loadAll(function(){
                     var mapOptions = self._getMapOptions(),
                         map = self._getMap(mapOptions);
-        
+
                     var marker = self._getMarker(map, mapOptions.center);
 
                     // fix issue w/ marker not appearing
@@ -69,17 +69,48 @@
             },
 
             search: function(map, marker, address) {
-                var googleGeocodeProvider = new L.GeoSearch.Provider.Google();
+                if (this.options.searchProvider === 'google') {
+                    var googleGeocodeProvider = new L.GeoSearch.Provider.Google();
 
-                googleGeocodeProvider.GetLocations(address, function(data) {
-                    if (data.length > 0) {
-                        var result = data[0],
-                            latLng = new L.LatLng(result.Y, result.X);
+                    googleGeocodeProvider.GetLocations(address, function(data) {
+                        if (data.length > 0) {
+                            var result = data[0],
+                                latLng = new L.LatLng(result.Y, result.X);
 
-                        marker.setLatLng(latLng);
-                        map.panTo(latLng);
+                            marker.setLatLng(latLng);
+                            map.panTo(latLng);
+                        }
+                    });
+                }
+
+                else if (this.options.searchProvider === 'yandex') {
+                    var url = '//geocode-maps.yandex.ru/1.x/?format=json&geocode=' + address;
+
+                    if (typeof this.options.providerOptions.yandex.apiKey !== 'undefined') {
+                        url += '&apikey=' + this.options.providerOptions.yandex.apiKey;
                     }
-                });
+
+                    var request = new XMLHttpRequest();
+                    request.open('GET', url, true);
+
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 400) {
+                            var data = JSON.parse(request.responseText);
+                            var pos = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ');
+                            var latLng = new L.LatLng(pos[1], pos[0]);
+                            marker.setLatLng(latLng);
+                            map.panTo(latLng);
+                        } else {
+                            console.error('Yandex geocoder error response');
+                        }
+                    };
+
+                    request.onerror = function () {
+                        console.error('Check connection to Yandex geocoder');
+                    };
+
+                    request.send();
+                }
             },
 
             loadAll: function(onload) {
@@ -156,6 +187,10 @@
 
                         onload();
                     });
+                },
+
+                yandexSearchProvider: function (options, onload) {
+                    onload();
                 },
 
                 mapbox: function(options, onload) {
@@ -342,7 +377,10 @@
                     },
                     mapbox: {
                         access_token: options['provider.mapbox.access_token']
-                    }
+                    },
+                    yandex: {
+                        apiKey: options['provider.yandex.api_key']
+                    },
                 },
                 mapOptions: {
                     zoom: options['map.zoom']

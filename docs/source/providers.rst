@@ -26,9 +26,10 @@ Search providers
 
 Search providers are used to translate addresses into latitude and longitude.
 
-For this we only have one option to offer for now:
+For this we only have two option to offer for now:
 
 - `Google <providers.html#google>`__
+- `Yandex <https://tech.yandex.com/maps/geocoder/>`__
 
 To set the search provider, use the ``search.provider`` property:
 
