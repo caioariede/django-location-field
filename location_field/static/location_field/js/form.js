@@ -16,7 +16,7 @@
                     google: {
                         api: '//maps.google.com/maps/api/js',
                         mapType: 'ROADMAP'
-                    },
+                    }
                 },
                 searchProvider: 'google',
                 id: 'map',
@@ -83,8 +83,12 @@
                     });
                 }
 
-                if (this.options.searchProvider === 'yandex') {
+                else if (this.options.searchProvider === 'yandex') {
                     var url = '//geocode-maps.yandex.ru/1.x/?format=json&geocode=' + address;
+
+                    if (typeof this.options.providerOptions.yandex.apiKey !== 'undefined') {
+                        url += '&apikey=' + this.options.providerOptions.yandex.apiKey;
+                    }
 
                     var request = new XMLHttpRequest();
                     request.open('GET', url, true);
@@ -373,6 +377,9 @@
                     },
                     mapbox: {
                         access_token: options['provider.mapbox.access_token']
+                    },
+                    yandex: {
+                        apiKey: options['provider.yandex.api_key']
                     },
                 },
                 mapOptions: {
