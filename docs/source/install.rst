@@ -43,6 +43,8 @@ At this moment we support three map providers:
 Choose a search provider
 ------------------------
 
-At this moment there's only one search provider:
+At this moment we support three search providers:
 
-- Google
+- `Google <providers.html#google>`__
+- `Yandex <https://tech.yandex.com/maps/geocoder/>`__
+- `Nominatim <https://wiki.openstreetmap.org/wiki/Nominatim>`__
