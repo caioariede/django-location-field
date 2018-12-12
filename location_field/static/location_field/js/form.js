@@ -352,8 +352,8 @@
         }
     }
 
-    $('input[data-location-field-options]').livequery(function(){
-        var el = $(this);
+    $(document).ready(function(){
+        var el = $('input[data-location-field-options]')
 
         if ( ! el.is(':visible'))
             return;
