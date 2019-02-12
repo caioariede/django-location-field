@@ -51,15 +51,16 @@ Basic usage (using Spatial Database)
 ```python
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
+from django.db.models import Manager as GeoManager
 from location_field.models.spatial import LocationField
 
 class Place(models.Model):
     city = models.CharField(max_length=255)
     location = LocationField(based_fields=['city'], zoom=7, default=Point(1.0, 1.0))
-    objects = models.GeoManager()
+    objects = GeoManager()
 ```
 
-Look that you must put `models.GeoManager()` in your model, or some errors will occur.
+Look that you must put `GeoManager()` in your model, or some errors will occur.
 
 Basic usage (without Spatial Database)
 --
