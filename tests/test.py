@@ -47,7 +47,6 @@ class LocationFieldTest(TestCase):
     def test_custom_resources(self):
         form = LocationForm(initial={})
 
-        self.assertIn('jquery.livequery.js', str(form.media))
         self.assertIn('form.js', str(form.media))
 
         with self.settings(LOCATION_FIELD={
