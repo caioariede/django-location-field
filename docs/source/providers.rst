@@ -30,6 +30,7 @@ For this we only have two option to offer for now:
 
 - `Google <providers.html#google>`__
 - `Yandex <https://tech.yandex.com/maps/geocoder/>`__
+- `Nominatim <https://wiki.openstreetmap.org/wiki/Nominatim>`__
 
 To set the search provider, use the ``search.provider`` property:
 

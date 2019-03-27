@@ -54,6 +54,7 @@ override, for example:
 
     LOCATION_FIELD = {
         'map.provider': 'openstreetmap',
+        'search.provider': 'nominatim',
     }
 
 This will keep all other settings the same.

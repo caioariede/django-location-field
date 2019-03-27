@@ -32,7 +32,7 @@
             }, options),
 
             providers: /google|openstreetmap|mapbox/,
-            searchProviders: /google|yandex/,
+            searchProviders: /google|yandex|nominatim/,
 
             render: function() {
                 this.$id = $('#' + this.options.id);
@@ -107,6 +107,35 @@
 
                     request.onerror = function () {
                         console.error('Check connection to Yandex geocoder');
+                    };
+
+                    request.send();
+                }
+
+                else if (this.options.searchProvider === 'nominatim') {
+                    var url = '//nominatim.openstreetmap.org/search/?format=json&q=' + address;
+
+                    var request = new XMLHttpRequest();
+                    request.open('GET', url, true);
+
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 400) {
+                            var data = JSON.parse(request.responseText);
+                            if (data.length > 0) {
+                                var pos = data[0];
+                                var latLng = new L.LatLng(pos.lat, pos.lon);
+                                marker.setLatLng(latLng);
+                                map.panTo(latLng);
+                            } else {
+                                console.error(address + ': not found via Nominatim');
+                            }
+                        } else {
+                            console.error('Nominatim geocoder error response');
+                        }
+                    };
+
+                    request.onerror = function () {
+                        console.error('Check connection to Nominatim geocoder');
                     };
 
                     request.send();
