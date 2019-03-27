@@ -352,7 +352,31 @@
         }
     }
 
-    $('input[data-location-field-options]').livequery(function(){
+    function dataLocationFieldObserver(callback) {
+      function _findAndEnableDataLocationFields() {
+        var dataLocationFields = $('input[data-location-field-options]');
+
+        dataLocationFields
+          .filter(':not([data-location-field-observed])')
+          .attr('data-location-field-observed', true)
+          .each(callback);
+      }
+
+      var observer = new MutationObserver(function(mutations){
+      console.log(mutations);
+        _findAndEnableDataLocationFields();
+      });
+
+      var container = document.documentElement || document.body;
+
+      $(container).ready(function(){
+        _findAndEnableDataLocationFields();
+      });
+
+      observer.observe(container, {attributes: true});
+    }
+
+    dataLocationFieldObserver(function(){
         var el = $(this);
 
         if ( ! el.is(':visible'))

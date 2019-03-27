@@ -26,7 +26,6 @@ LOCATION_FIELD = {
     'resources.root_path': LOCATION_FIELD_PATH,
     'resources.media': {
         'js': [
-            LOCATION_FIELD_PATH + '/js/jquery.livequery.js',
             LOCATION_FIELD_PATH + '/js/form.js',
         ],
     },
