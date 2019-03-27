@@ -1,3 +1,61 @@
+var SequentialLoader = function() {
+    var SL = {
+        loadJS: function(src, onload) {
+            //console.log(src);
+            // add to pending list
+            this._load_pending.push({'src': src, 'onload': onload});
+            // check if not already loading
+            if ( ! this._loading) {
+                this._loading = true;
+                // load first
+                this.loadNextJS();
+            }
+        },
+
+        loadNextJS: function() {
+            // get next
+            var next = this._load_pending.shift();
+            if (next == undefined) {
+                // nothing to load
+                this._loading = false;
+                return;
+            }
+            // check not loaded
+            if (this._load_cache[next.src] != undefined) {
+                next.onload();
+                this.loadNextJS();
+                return; // already loaded
+            }
+            else {
+                this._load_cache[next.src] = 1;
+            }
+            // load
+            var el = document.createElement('script');
+            el.type = 'application/javascript';
+            el.src = next.src;
+            // onload callback
+            var self = this;
+            el.onload = function(){
+                //console.log('Loaded: ' + next.src);
+                // trigger onload
+                next.onload();
+                // try to load next
+                self.loadNextJS();
+            };
+            document.body.appendChild(el);
+        },
+
+        _loading: false,
+        _load_pending: [],
+        _load_cache: {}
+    };
+
+    return {
+        loadJS: SL.loadJS.bind(SL)
+    }
+};
+
+
 !function($){
     var LocationFieldCache = {
         load: [],
@@ -465,65 +523,6 @@
     });
 
 }(jQuery || django.jQuery);
-
-
-var SequentialLoader = function() {
-    var SL = {
-        loadJS: function(src, onload) {
-            //console.log(src);
-            // add to pending list
-            this._load_pending.push({'src': src, 'onload': onload});
-            // check if not already loading
-            if ( ! this._loading) {
-                this._loading = true;
-                // load first
-                this.loadNextJS();
-            }
-        },
-
-        loadNextJS: function() {
-            // get next
-            var next = this._load_pending.shift();
-            if (next == undefined) {
-                // nothing to load
-                this._loading = false;
-                return;
-            }
-            // check not loaded
-            if (this._load_cache[next.src] != undefined) {
-                next.onload();
-                this.loadNextJS();
-                return; // already loaded
-            }
-            else {
-                this._load_cache[next.src] = 1;
-            }
-            // load
-            var el = document.createElement('script');
-            el.type = 'application/javascript';
-            el.src = next.src;
-            // onload callback
-            var self = this;
-            el.onload = function(){
-                //console.log('Loaded: ' + next.src);
-                // trigger onload
-                next.onload();
-                // try to load next
-                self.loadNextJS();
-            };
-            document.body.appendChild(el);
-        },
-
-        _loading: false,
-        _load_pending: [],
-        _load_cache: {}
-    };
-
-    return {
-        loadJS: SL.loadJS.bind(SL)
-    }
-};
-
 
 /*!
 loadCSS: load a CSS file asynchronously.
