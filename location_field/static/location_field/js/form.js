@@ -505,8 +505,12 @@ var SequentialLoader = function() {
             prefixNumber = name.match(/-(\d+)-/)[1];
         } catch (e) {}
 
-        if (prefixNumber != undefined && options.field_options.prefix) {
-            var prefix = options.field_options.prefix.replace(/__prefix__/, prefixNumber);
+        if (options.field_options.prefix) {
+            var prefix = options.field_options.prefix;
+
+            if (prefixNumber != null) {
+                prefix = prefix.replace(/__prefix__/, prefixNumber);
+            }
 
             basedFields = basedFields.map(function(n){
                 return prefix + n
