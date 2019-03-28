@@ -56,6 +56,23 @@ var SequentialLoader = function() {
 };
 
 
+/**
+ * Convert a comma-separated string representing a geographical point to a
+ * LatLng object.
+ * @param {String} value - Latitude and longitude separated by a comma
+ * @return {LatLng} Geographical point as LatLng object
+ */
+var strToLatLng = function(value) {
+    if (typeof value !== 'string')
+        return value;
+
+    value = value.split(',').map(function(val) {
+        return parseFloat(val.trim());
+    });
+    return new L.LatLng(value[0], value[1]);
+};
+
+
 !function($){
     var LocationFieldCache = {
         load: [],
@@ -78,8 +95,9 @@ var SequentialLoader = function() {
                 },
                 searchProvider: 'google',
                 id: 'map',
-                latLng: '0,0',
+                latLng: null,
                 mapOptions: {
+                    center: [0, 0],
                     zoom: 9
                 },
                 basedFields: $(),
@@ -108,10 +126,8 @@ var SequentialLoader = function() {
                 var self = this;
 
                 this.loadAll(function(){
-                    var mapOptions = self._getMapOptions(),
-                        map = self._getMap(mapOptions);
-
-                    var marker = self._getMarker(map, mapOptions.center);
+                    var map = self._getMap(self.options.mapOptions),
+                        marker = self._getMarker(map, self.options.latLng);
 
                     // fix issue w/ marker not appearing
                     if (self.options.provider == 'google' && self.options.fixMarker)
@@ -345,6 +361,8 @@ var SequentialLoader = function() {
             },
 
             _getMap: function(mapOptions) {
+                mapOptions.center = strToLatLng(mapOptions.center);
+
                 var map = new L.Map(this.options.id, mapOptions), layer;
 
                 if (this.options.provider == 'google') {
@@ -370,24 +388,27 @@ var SequentialLoader = function() {
                 return map;
             },
 
-            _getMapOptions: function() {
-                return $.extend(this.options.mapOptions, {
-                    center: this._getLatLng()
-                });
-            },
-
-            _getLatLng: function() {
-                var l = this.options.latLng.split(',').map(parseFloat);
-                return new L.LatLng(l[0], l[1]);
-            },
-
-            _getMarker: function(map, center) {
-                var self = this,
+            _getMarker: function(map, latlng) {
+                var marker,
+                    self = this,
                     markerOptions = {
                         draggable: true
                     };
 
-                var marker = L.marker(center, markerOptions).addTo(map);
+                if (!latlng) {
+                    markerOptions.opacity = 0;
+                    marker = L.marker([0, 0], markerOptions);
+
+                    marker.once('move', function() {
+                        marker.setOpacity(1);
+                    });
+                } else {
+                    latlng = strToLatLng(latlng);
+                    marker = L.marker(latlng, markerOptions);
+
+                    // pan the map to this marker
+                    map.panTo(latlng);
+                }
 
                 // fill input on dragend
                 marker.on('dragend move', function(){
@@ -399,7 +420,7 @@ var SequentialLoader = function() {
                     marker.setLatLng(e.latlng);
                 });
 
-                return marker;
+                return marker.addTo(map);
             },
 
             _watchBasedFields: function(map, marker) {
@@ -472,7 +493,7 @@ var SequentialLoader = function() {
             pluginOptions = {
                 id: 'map_' + name,
                 inputField: el,
-                latLng: el.val() || '0,0',
+                latLng: el.val() || null,
                 suffix: options['search.suffix'],
                 path: options['resources.root_path'],
                 provider: options['map.provider'],
@@ -491,6 +512,7 @@ var SequentialLoader = function() {
                     },
                 },
                 mapOptions: {
+                    center: options['map.center'],
                     zoom: options['map.zoom']
                 }
             };
