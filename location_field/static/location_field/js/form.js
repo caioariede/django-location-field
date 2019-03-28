@@ -466,16 +466,13 @@ var SequentialLoader = function() {
     dataLocationFieldObserver(function(){
         var el = $(this);
 
-        if ( ! el.is(':visible'))
-            return;
-
         var name = el.attr('name'),
             options = el.data('location-field-options'),
             basedFields = options.field_options.based_fields,
             pluginOptions = {
                 id: 'map_' + name,
                 inputField: el,
-                latLng: el.parent().find(':text').val() || '0,0',
+                latLng: el.val() || '0,0',
                 suffix: options['search.suffix'],
                 path: options['resources.root_path'],
                 provider: options['map.provider'],
