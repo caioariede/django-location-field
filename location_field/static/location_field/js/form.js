@@ -352,7 +352,7 @@ var SequentialLoader = function() {
                 }
                 else if (this.options.provider == 'openstreetmap') {
                     layer = new L.tileLayer(
-                        'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             maxZoom: 18
                         });
                 }
