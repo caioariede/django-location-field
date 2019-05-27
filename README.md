@@ -13,7 +13,7 @@ Status
 [![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field) [![Documentation Status](https://readthedocs.org/projects/django-location-field/badge/?version=latest)](https://django-location-field.readthedocs.io/en/latest/?badge=latest)
  [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/caioariede)
 
-Tests are performed with Python 2.7, Django 1.8 .. 1.10 and SpatiaLite. We'd like to have automated tests for Python 3 too, but it looks like pysqlite (which is used for testing) does not support it yet, so it's blocking us. You can get more details in the [tox.ini](https://github.com/caioariede/django-location-field/blob/master/tox.ini#L40) file.
+Tests are performed with Python 2 and 3, Django 1.11 and 2, and SpatiaLite.
 
 Features
 --
@@ -25,8 +25,8 @@ Features
 Compatibility
 --
 
-* Django 1.8 to 1.10
-* Python 2.7 to 3.5
+* Django >= 1.11
+* Python 2.7, 3.6, 3.7
 
 Spatial Databases
 --
