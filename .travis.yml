@@ -4,20 +4,16 @@ dist: xenial
 
 language: python
 
-python:
-  - "2.7"
-
 matrix:
   include:
     - python: 2.7
-      env:
-        - TOX_ENV=dj18
-        - TOX_ENV=dj19
-        - TOX_ENV=dj110
-        - TOX_ENV=dj111
-
-virtualenv:
-  system_site_packages: true
+      env: TOXENV=dj111
+    - python: 3.6
+      env: TOXENV=dj20
+    - python: 3.7
+      env: TOXENV=dj21
+    - python: 3.7
+      env: TOXENV=dj22
 
 before_install:
   # update packages
@@ -42,4 +38,4 @@ install:
   - pip install tox
 
 script:
-  - tox -e $TOX_ENV
+  - tox

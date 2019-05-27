@@ -9,9 +9,7 @@ sys.path.insert(0, test_dir)
 
 
 import django
-
-if django.VERSION[1] > 6:
-    django.setup()
+django.setup()
 
 
 def runtests():
