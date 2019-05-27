@@ -19,9 +19,6 @@ matrix:
         - TOX_ENV=dj21
         - TOX_ENV=dj22
 
-virtualenv:
-  system_site_packages: true
-
 before_install:
   # update packages
   - "sudo apt-get update -y"
