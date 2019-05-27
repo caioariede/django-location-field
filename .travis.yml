@@ -6,15 +6,18 @@ language: python
 
 python:
   - "2.7"
+  - "3.7"
 
 matrix:
   include:
     - python: 2.7
       env:
-        - TOX_ENV=dj18
-        - TOX_ENV=dj19
-        - TOX_ENV=dj110
         - TOX_ENV=dj111
+    - python: 3.7
+      env:
+        - TOX_ENV=dj20
+        - TOX_ENV=dj21
+        - TOX_ENV=dj22
 
 virtualenv:
   system_site_packages: true
