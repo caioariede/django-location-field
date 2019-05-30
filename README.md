@@ -81,4 +81,4 @@ Screenshot
 
 ---
 
-[Nick Frost](https://www.iconfinder.com/Gimpopo) has credit over the image used as logo for this project. [CC BY](https://creativecommons.org/licenses/by/3.0/)
+[Nick Frost](https://www.iconfinder.com/Gimpopo) has credit over the [image](django-location-field.png) used as logo for this project. [CC BY](https://creativecommons.org/licenses/by/3.0/)
