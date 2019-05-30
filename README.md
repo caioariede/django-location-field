@@ -1,4 +1,6 @@
-Django Location Field
+![logo](django-location-field.png)
+
+django-location-field
 ==
 
 Let users pick locations using a map widget and store its latitude and longitude.
@@ -76,3 +78,7 @@ Screenshot
 --
 
 ![Screenshot](https://github.com/caioariede/django-location-field/raw/master/screenshot.png)
+
+---
+
+[Nick Frost](https://www.iconfinder.com/Gimpopo) has credit over the image used as logo for this project. [CC BY](https://creativecommons.org/licenses/by/3.0/)
