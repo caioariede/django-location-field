@@ -5,6 +5,8 @@ LOCATION_FIELD_PATH = settings.STATIC_URL + 'location_field'
 LOCATION_FIELD = {
     'map.provider': 'google',
     'map.zoom': 13,
+    'map.widget_width': '500px',
+    'map.widget_height': '250px',
 
     'search.provider': 'google',
     'search.suffix': '',
