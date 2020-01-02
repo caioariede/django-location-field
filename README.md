@@ -21,7 +21,7 @@ Features
 --
 
 * Support for multiple map engines, like Google Maps, OpenStreetMap and Mapbox.
-* Support for multiple search engines, like Google, Nominatim and Yandex.
+* Support for multiple search engines, like Google, Nominatim, Yandex and Addok.
 * Works with both Spatial and non-Spatial databases.
 
 Compatibility

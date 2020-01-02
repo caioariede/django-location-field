@@ -90,7 +90,7 @@ var SequentialLoader = function() {
             }, options),
 
             providers: /google|openstreetmap|mapbox/,
-            searchProviders: /google|yandex|nominatim/,
+            searchProviders: /google|yandex|nominatim|addok/,
 
             render: function() {
                 this.$id = $('#' + this.options.id);
@@ -165,6 +165,31 @@ var SequentialLoader = function() {
 
                     request.onerror = function () {
                         console.error('Check connection to Yandex geocoder');
+                    };
+
+                    request.send();
+                }
+
+                else if (this.options.searchProvider === 'addok') {
+                    var url = 'https://api-adresse.data.gouv.fr/search/?limit=1&q=' + address;
+
+                    var request = new XMLHttpRequest();
+                    request.open('GET', url, true);
+
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 400) {
+                            var data = JSON.parse(request.responseText);
+                            var pos = data.features[0].geometry.coordinates;
+                            var latLng = new L.LatLng(pos[1], pos[0]);
+                            marker.setLatLng(latLng);
+                            map.panTo(latLng);
+                        } else {
+                            console.error('Addok geocoder error response');
+                        }
+                    };
+
+                    request.onerror = function () {
+                        console.error('Check connection to Addok geocoder');
                     };
 
                     request.send();
