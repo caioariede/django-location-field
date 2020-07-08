@@ -2,6 +2,8 @@
 Settings
 ********
 
+.. _settings:
+
 Default settings
 ----------------
 

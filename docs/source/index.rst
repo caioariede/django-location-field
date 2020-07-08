@@ -16,6 +16,7 @@ Contents
    :maxdepth: 2
 
    install
+   tutorials
    settings
    formfields
    changelog
