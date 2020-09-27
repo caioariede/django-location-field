@@ -6,7 +6,9 @@ There are two kind of providers:
 Map providers
 -------------
 
-Map providers are used for rendering. For this we have three options:
+Map providers are used to define the tile layers displayed on the map.
+
+For this we have at first three options for predefined tile servers:
 
 - `Google <providers.html#google>`__
 - `Mapbox <providers.html#mapbox>`__
@@ -18,6 +20,20 @@ To set the map provider, use the ``map.provider`` property:
 
     LOCATION_FIELD = {
         'map.provider': 'google',
+    }
+
+As there are many `tile servers <https://wiki.openstreetmap.org/wiki/Tiles#Servers>`__,
+you can also set a custom one by defining a dict with at least the ``url`` property:
+
+.. code-block:: python
+
+    LOCATION_FIELD = {
+        'map.provider': {
+            'url': 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+            'options': {
+                'maxZoom': '20',
+            },
+        },
     }
 
 

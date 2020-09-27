@@ -95,7 +95,7 @@ var SequentialLoader = function() {
             render: function() {
                 this.$id = $('#' + this.options.id);
 
-                if ( ! this.providers.test(this.options.provider)) {
+                if ( ! this.providers.test(this.options.provider) && ! this.options.provider.url) {
                     this.error('render failed, invalid map provider: ' + this.options.provider);
                     return;
                 }
@@ -372,22 +372,28 @@ var SequentialLoader = function() {
             _getMap: function(mapOptions) {
                 var map = new L.Map(this.options.id, mapOptions), layer;
 
-                if (this.options.provider == 'google') {
+                if (this.options.provider === 'google') {
                     layer = new L.Google(this.options.providerOptions.google.mapType);
                 }
-                else if (this.options.provider == 'openstreetmap') {
+                else if (this.options.provider === 'openstreetmap') {
                     layer = new L.tileLayer(
                         '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                             maxZoom: 18
                         });
                 }
-                else if (this.options.provider == 'mapbox') {
+                else if (this.options.provider === 'mapbox') {
                     layer = new L.tileLayer(
                         'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                             maxZoom: 18,
                             accessToken: this.options.providerOptions.mapbox.access_token,
                             id: 'mapbox.streets'
                         });
+                }
+                else if (this.options.provider.url) {
+                    layer = new L.tileLayer(
+                        this.options.provider.url,
+                        this.options.provider.options || {}
+                    );
                 }
 
                 map.addLayer(layer);
