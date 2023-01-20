@@ -54,7 +54,7 @@ Example:
     from django import forms
     from django.contrib.gis.geos import Point
 
-    from location_field.forms.plain import PlainLocationField
+    from location_field.forms.spatial import LocationField
 
 
     class Address(forms.Form):
