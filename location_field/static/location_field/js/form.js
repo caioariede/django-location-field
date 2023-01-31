@@ -383,10 +383,10 @@ var SequentialLoader = function() {
                 }
                 else if (this.options.provider == 'mapbox') {
                     layer = new L.tileLayer(
-                        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                        'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                             maxZoom: 18,
                             accessToken: this.options.providerOptions.mapbox.access_token,
-                            id: 'mapbox.streets'
+                            id: 'mapbox/streets-v11'
                         });
                 }
 
