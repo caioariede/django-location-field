@@ -16,7 +16,8 @@ class LocationWidget(widgets.TextInput):
         self.options['field_options'] = {
             'based_fields': kwargs.pop('based_fields'),
         }
-
+        if kwargs.get('zoom'):
+            self.options['map.zoom'] = kwargs.get('zoom')
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None, renderer=None):
