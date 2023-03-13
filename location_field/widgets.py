@@ -12,7 +12,7 @@ class LocationWidget(widgets.TextInput):
     def __init__(self, **kwargs):
         attrs = kwargs.pop('attrs', None)
 
-        self.options = dict(settings.LOCATION_FIELD)
+        self.options = {}
         self.options['field_options'] = {
             'based_fields': kwargs.pop('based_fields'),
         }
@@ -46,7 +46,7 @@ class LocationWidget(widgets.TextInput):
         self.options['field_options']['prefix'] = prefix
 
         attrs = attrs or {}
-        attrs['data-location-field-options'] = json.dumps(self.options)
+        attrs['data-location-field-options'] = json.dumps(dict(settings.LOCATION_FIELD, **self.options))
 
         # Django added renderer parameter in 1.11, made it mandatory in 2.1
         kwargs = {}
