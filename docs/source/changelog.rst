@@ -5,6 +5,12 @@ Changelog
 Versions
 ========
 
+2.1.1
+-----
+
+- Fixed initial map rendering #84
+
+
 2.0.0
 -----
 
