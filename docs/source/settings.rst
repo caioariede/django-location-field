@@ -22,9 +22,7 @@ These are the default settings:
         'search.suffix': '',
 
         # Google
-        'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
         'provider.google.api_key': '',
-        'provider.google.api_libraries': '',
         'provider.google.map.type': 'ROADMAP',
 
         # Mapbox
@@ -34,6 +32,10 @@ These are the default settings:
 
         # OpenStreetMap
         'provider.openstreetmap.max_zoom': 18,
+
+        # Yandex (Only Search Provider is available)
+        # https://yandex.com/dev/maps/jsapi/doc/2.1/quick-start/index.html#get-api-key
+        'provider.yandex.api_key': '',
 
         # misc
         'resources.root_path': LOCATION_FIELD_PATH,

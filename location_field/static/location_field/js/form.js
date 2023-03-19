@@ -128,12 +128,11 @@ var SequentialLoader = function() {
 
             search: function(map, marker, address) {
                 if (this.options.searchProvider === 'google') {
-                    var googleGeocodeProvider = new L.GeoSearch.Provider.Google();
-
-                    googleGeocodeProvider.GetLocations(address, function(data) {
+                    var provider = new GeoSearch.GoogleProvider({ apiKey: this.options.providerOptions.google.apiKey });
+                    provider.search({query: address}).then(data => {
                         if (data.length > 0) {
                             var result = data[0],
-                                latLng = new L.LatLng(result.Y, result.X);
+                                latLng = new L.LatLng(result.y, result.x);
 
                             marker.setLatLng(latLng);
                             map.panTo(latLng);
@@ -142,7 +141,8 @@ var SequentialLoader = function() {
                 }
 
                 else if (this.options.searchProvider === 'yandex') {
-                    var url = '//geocode-maps.yandex.ru/1.x/?format=json&geocode=' + address;
+                    // https://yandex.com/dev/maps/geocoder/doc/desc/concepts/input_params.html
+                    var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&geocode=' + address;
 
                     if (typeof this.options.providerOptions.yandex.apiKey !== 'undefined') {
                         url += '&apikey=' + this.options.providerOptions.yandex.apiKey;
@@ -264,41 +264,41 @@ var SequentialLoader = function() {
             },
 
             load: {
-                    google: function(options, onload) {
-                        var url = options.api;
+                google: function(options, onload) {
+                    var js = [
+                        this.path + '/@googlemaps/js-api-loader/index.min.js',
+                        this.path + '/Leaflet.GoogleMutant.js',
+                    ];
 
-                        if (typeof options.apiKey !== 'undefined') {
-                            url += url.indexOf('?') === -1 ? '?' : '&';
-                            url += 'key=' + options.apiKey;
-                        }
-
-                        var js = [
-                            url,
-                            this.path + '/leaflet-google.js'
-                        ];
-
-                    this._loadJSList(js, onload);
+                    this._loadJSList(js, function(){
+                        const loader = new google.maps.plugins.loader.Loader({
+                          apiKey: options.apiKey,
+                          version: "weekly",
+                        });
+                        loader.load().then(() => onload());
+                    });
                 },
 
                 googleSearchProvider: function(options, onload) {
-                    var url = options.api;
+                    onload();
+                    //var url = options.api;
 
-                    if (typeof options.apiKey !== 'undefined') {
-                        url += url.indexOf('?') === -1 ? '?' : '&';
-                        url += 'key=' + options.apiKey;
-                    }
+                    //if (typeof options.apiKey !== 'undefined') {
+                    //    url += url.indexOf('?') === -1 ? '?' : '&';
+                    //    url += 'key=' + options.apiKey;
+                    //}
 
-                    var js = [
-                            url,
-                            this.path + '/l.geosearch.provider.google.js'
-                        ];
+                    //var js = [
+                    //        url,
+                    //        this.path + '/l.geosearch.provider.google.js'
+                    //    ];
 
-                    this._loadJSList(js, function(){
-                        // https://github.com/smeijer/L.GeoSearch/issues/57#issuecomment-148393974
-                        L.GeoSearch.Provider.Google.Geocoder = new google.maps.Geocoder();
+                    //this._loadJSList(js, function(){
+                    //    // https://github.com/smeijer/L.GeoSearch/issues/57#issuecomment-148393974
+                    //    L.GeoSearch.Provider.Google.Geocoder = new google.maps.Geocoder();
 
-                        onload();
-                    });
+                    //    onload();
+                    //});
                 },
 
                 yandexSearchProvider: function (options, onload) {
@@ -317,17 +317,20 @@ var SequentialLoader = function() {
                     var self = this,
                         js = [
                             // map providers
-                            this.path + '/leaflet.js',
+                            this.path + '/leaflet/leaflet.js',
                             // search providers
-                            this.path + '/l.control.geosearch.js',
+                            this.path + '/leaflet-geosearch/geosearch.umd.js',
                         ],
                         css = [
                             // map providers
-                            this.path + '/leaflet.css'
+                            this.path + '/leaflet/leaflet.css'
                         ];
 
-                    this._loadJSList(js, function(){
-                        self._loadCSSList(css, onload);
+                    // Leaflet docs note:
+                    // Include Leaflet JavaScript file *after* Leaflet’s CSS
+                    // https://leafletjs.com/examples/quick-start/
+                    this._loadCSSList(css, function(){
+                        self._loadJSList(js, onload);
                     });
                 },
 
@@ -373,7 +376,9 @@ var SequentialLoader = function() {
                 var map = new L.Map(this.options.id, mapOptions), layer;
 
                 if (this.options.provider == 'google') {
-                    layer = new L.Google(this.options.providerOptions.google.mapType);
+                    layer = new L.gridLayer.googleMutant({
+                        type: this.options.providerOptions.google.mapType.toLowerCase(),
+                    });
                 }
                 else if (this.options.provider == 'openstreetmap') {
                     layer = new L.tileLayer(
