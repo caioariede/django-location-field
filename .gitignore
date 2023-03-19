@@ -5,6 +5,9 @@
 
 *.pyc
 
+# Build specifics
+*.egg-info
+
 # Useful for testing
 example_postgis/.venv
 
@@ -18,3 +21,6 @@ build
 
 # Docs
 docs/build
+
+# JS
+node_modules
