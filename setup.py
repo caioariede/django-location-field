@@ -1,11 +1,10 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-
-VERSION = __import__('location_field').__version__
+VERSION = __import__("location_field").__version__
 
 
 setup(
-    name='django-location-field',
+    name="django-location-field",
     version=VERSION,
     description="Location field for Django",
     long_description="This module provides a location field for Django applications.",
@@ -16,10 +15,12 @@ setup(
     zip_safe=False,
     platforms=["any"],
     packages=find_packages(),
-    package_data={'location_field': [
-        'static/location_field/js/*',
-        'templates/location_field/*',
-    ]},
+    package_data={
+        "location_field": [
+            "static/location_field/js/*",
+            "templates/location_field/*",
+        ]
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -37,8 +38,8 @@ setup(
     ],
     include_package_data=True,
     tests_require=[
-        'six',
-        'pyquery<1.4',
+        "six",
+        "pyquery<1.4",
     ],
     test_suite="runtests.runtests",
 )

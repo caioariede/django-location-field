@@ -1,8 +1,8 @@
-import six
 import json
 
-from django.conf import settings
+import six
 from django import forms
+from django.conf import settings
 from django.forms import widgets
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -10,55 +10,59 @@ from django.utils.safestring import mark_safe
 
 class LocationWidget(widgets.TextInput):
     def __init__(self, **kwargs):
-        attrs = kwargs.pop('attrs', None)
+        attrs = kwargs.pop("attrs", None)
 
         self.options = {}
-        self.options['field_options'] = {
-            'based_fields': kwargs.pop('based_fields'),
+        self.options["field_options"] = {
+            "based_fields": kwargs.pop("based_fields"),
         }
-        if kwargs.get('zoom'):
-            self.options['map.zoom'] = kwargs.get('zoom')
+        if kwargs.get("zoom"):
+            self.options["map.zoom"] = kwargs.get("zoom")
         super(LocationWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None, renderer=None):
         if value is not None:
             try:
                 if isinstance(value, six.string_types):
-                    lat, lng = value.split(',')
+                    lat, lng = value.split(",")
                 else:
                     lng = value.x
                     lat = value.y
 
-                value = '%s,%s' % (
+                value = "%s,%s" % (
                     float(lat),
                     float(lng),
                 )
             except ValueError:
-                value = ''
+                value = ""
         else:
-            value = ''
+            value = ""
 
-        if '-' not in name:
-            prefix = ''
+        if "-" not in name:
+            prefix = ""
         else:
-            prefix = name[:name.rindex('-') + 1]
+            prefix = name[: name.rindex("-") + 1]
 
-        self.options['field_options']['prefix'] = prefix
+        self.options["field_options"]["prefix"] = prefix
 
         attrs = attrs or {}
-        attrs['data-location-field-options'] = json.dumps(dict(settings.LOCATION_FIELD, **self.options))
+        attrs["data-location-field-options"] = json.dumps(
+            dict(settings.LOCATION_FIELD, **self.options)
+        )
 
         # Django added renderer parameter in 1.11, made it mandatory in 2.1
         kwargs = {}
         if renderer is not None:
-            kwargs['renderer'] = renderer
-        text_input = super(LocationWidget, self).render(name, value, attrs=attrs, **kwargs)
+            kwargs["renderer"] = renderer
+        text_input = super(LocationWidget, self).render(
+            name, value, attrs=attrs, **kwargs
+        )
 
-        return render_to_string('location_field/map_widget.html', {
-            'field_name': name,
-            'field_input': mark_safe(text_input)
-        })
+        return render_to_string(
+            "location_field/map_widget.html",
+            {"field_name": name, "field_input": mark_safe(text_input)},
+        )
 
     @property
     def media(self):
-        return forms.Media(**settings.LOCATION_FIELD['resources.media'])
+        return forms.Media(**settings.LOCATION_FIELD["resources.media"])

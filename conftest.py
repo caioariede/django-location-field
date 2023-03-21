@@ -1,6 +1,7 @@
-from django.conf import settings
 import sys
+
 import pytest
+from django.conf import settings
 
 
 def pytest_addoption(parser):
@@ -22,38 +23,44 @@ def pytest_runtest_setup(item):
 def pytest_configure(config):
     COMMON_CONFIG = dict(
         STATIC_URL="",
-        INSTALLED_APPS = [
+        INSTALLED_APPS=[
             "location_field",
             "tests",
         ],
-        TEMPLATES = [
+        TEMPLATES=[
             {
-                'BACKEND': 'django.template.backends.django.DjangoTemplates',
-                'APP_DIRS': True,
+                "BACKEND": "django.template.backends.django.DjangoTemplates",
+                "APP_DIRS": True,
             },
         ],
     )
 
-    if sys.platform == 'darwin':
-        COMMON_CONFIG['SPATIALITE_LIBRARY_PATH'] = '/usr/local/lib/mod_spatialite.dylib'
+    if sys.platform == "darwin":
+        COMMON_CONFIG["SPATIALITE_LIBRARY_PATH"] = "/usr/local/lib/mod_spatialite.dylib"
     elif sys.version_info[0] == 2:
-        COMMON_CONFIG['SPATIALITE_LIBRARY_PATH'] = 'mod_spatialite'
+        COMMON_CONFIG["SPATIALITE_LIBRARY_PATH"] = "mod_spatialite"
 
     if should_run_spatial(config):
-        settings.configure(**dict(COMMON_CONFIG,
-            DATABASES = {
-                'default': {
-                    'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-                    'NAME': 'db.sqlite3',
-                }
-            }
-        ))
+        settings.configure(
+            **dict(
+                COMMON_CONFIG,
+                DATABASES={
+                    "default": {
+                        "ENGINE": "django.contrib.gis.db.backends.spatialite",
+                        "NAME": "db.sqlite3",
+                    }
+                },
+            )
+        )
     else:
-        settings.configure(**dict(COMMON_CONFIG,
-            DATABASES = {
-                'default': {
-                    'ENGINE': 'django.db.backends.sqlite3',
-                    'NAME': 'db.sqlite3',
-                }
-            }
-        ))
+        settings.configure(
+            **dict(
+                COMMON_CONFIG,
+                DATABASES={
+                    "default": {
+                        "ENGINE": "django.db.backends.sqlite3",
+                        "NAME": "db.sqlite3",
+                    }
+                },
+            )
+        )
