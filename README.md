@@ -5,7 +5,7 @@ django-location-field
 
 Let users pick locations using a map widget and store its latitude and longitude.
 
-**Stable version:** [django-location-field==2.1.0](https://pypi.python.org/pypi/django-location-field/2.1.1)  
+**Stable version:** [django-location-field==2.1.1](https://pypi.python.org/pypi/django-location-field/2.1.1)  
 **Documentation:** [https://django-location-field.readthedocs.io/en/latest/](https://django-location-field.readthedocs.io/en/latest/)  
 **License:** MIT
 
@@ -27,8 +27,8 @@ Features
 Compatibility
 --
 
-* Django >= 1.11
-* Python 2.7, 3.6, 3.7
+* Django: 1.11, 2.2, 3.2
+* Python 2.7, 3.9, 3.10, 3.11
 
 Spatial Databases
 --

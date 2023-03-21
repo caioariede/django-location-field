@@ -28,16 +28,17 @@ setup(
         "Operating System :: OS Independent",
         "Framework :: Django",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     include_package_data=True,
-    install_requires=[
-        'Django>=1.7',
-        'six',
-    ],
     tests_require=[
-        'pyquery',
+        'six',
+        'pyquery<1.4',
     ],
     test_suite="runtests.runtests",
 )

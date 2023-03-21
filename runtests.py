@@ -8,13 +8,13 @@ test_dir = os.path.dirname(__file__)
 sys.path.insert(0, test_dir)
 
 
-import django
-django.setup()
 
 
 def runtests():
+    import django
     from django.test.utils import get_runner
     from django.conf import settings
+    django.setup()
 
     TestRunner = get_runner(settings)
     test_runner = TestRunner(verbosity=1, interactive=True)

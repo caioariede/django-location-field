@@ -2,7 +2,6 @@ include LICENSE
 include README.md
 
 recursive-include location_field/static *
-recursive-include location_field/contrib *.py
 recursive-include location_field/forms *.py
 recursive-include location_field/models *.py
 recursive-include location_field/templates *.html
