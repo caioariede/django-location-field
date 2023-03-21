@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.conf import settings
+import pytest
 
 from location_field.apps import DefaultConfig
 
@@ -12,48 +12,43 @@ import json
 import location_field
 
 
-class LocationFieldTest(TestCase):
-    def test_plain(self):
-        vals = {
-            'city': 'Bauru',
-            'location': '-22.2878573,-49.0905487',
-        }
+@pytest.mark.django_db
+def test_plain():
+    vals = {
+        'city': 'Bauru',
+        'location': '-22.2878573,-49.0905487',
+    }
 
-        obj = Place.objects.create(**vals)
+    obj = Place.objects.create(**vals)
 
-        self.assertEqual(obj.city, 'Bauru')
-        self.assertEqual(obj.location, '-22.2878573,-49.0905487')
+    assert obj.city == 'Bauru'
+    assert obj.location == '-22.2878573,-49.0905487'
 
-    def test_settings(self):
-        with self.settings(LOCATION_FIELD={'map.provider': 'foobar'}):
-            app_config = DefaultConfig('location_field', location_field)
-            app_config.patch_settings()
+def test_settings(settings):
+    settings.LOCATION_FIELD={'map.provider': 'foobar'}
+    app_config = DefaultConfig('location_field', location_field)
+    app_config.patch_settings()
 
-            self.assertEqual(settings.LOCATION_FIELD.get('map.provider'),
-                             'foobar')
+    assert settings.LOCATION_FIELD.get('map.provider') == 'foobar'
 
-    def test_field_options(self):
-        form = LocationForm(initial={})
-        d = pq(str(form))
+@pytest.mark.django_db
+def test_field_options(settings):
+    form = LocationForm(initial={})
+    d = pq(str(form))
 
-        opts = json.loads(d('[data-location-field-options]').attr(
-            'data-location-field-options'))
+    opts = json.loads(d('[data-location-field-options]').attr(
+        'data-location-field-options'))
 
-        location_field_opts = settings.LOCATION_FIELD
+    location_field_opts = settings.LOCATION_FIELD
 
-        for key, value in location_field_opts.items():
-            self.assertEqual(value, opts[key])
+    for key, value in location_field_opts.items():
+        assert value == opts[key]
 
-    def test_custom_resources(self):
-        form = LocationForm(initial={})
+def test_custom_resources(settings):
+    form = LocationForm(initial={})
 
-        self.assertIn('form.js', str(form.media))
+    assert 'form.js' in str(form.media)
 
-        with self.settings(LOCATION_FIELD={
-                'resources.media': {'js': ['foo.js', 'bar.js']}}):
-            self.assertIn('foo.js', str(form.media))
-            self.assertIn('bar.js', str(form.media))
-
-
-if settings.TEST_SPATIAL:
-    from . import spatial_test
+    settings.LOCATION_FIELD = {'resources.media': {'js': ['foo.js', 'bar.js']}}
+    assert 'foo.js' in str(form.media)
+    assert 'bar.js' in str(form.media)

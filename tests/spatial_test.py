@@ -1,17 +1,17 @@
-from django.test import TestCase
-from django.contrib.gis.geos import Point
+import pytest
 
-from tests.spatial_models import SpatialPlace
+@pytest.mark.spatial
+@pytest.mark.django_db
+def test_spatial(db):
+    from django.contrib.gis.geos import Point
+    from tests.models import SpatialPlace
 
+    vals = {
+        'city': 'Bauru',
+        'location': 'POINT(-22.2878573 -49.0905487)',
+    }
 
-class LocationFieldSpatialTest(TestCase):
-    def test_spatial(self):
-        vals = {
-            'city': 'Bauru',
-            'location': 'POINT(-22.2878573 -49.0905487)',
-        }
+    obj = SpatialPlace.objects.create(**vals)
 
-        obj = SpatialPlace.objects.create(**vals)
-
-        self.assertEqual(obj.city, 'Bauru')
-        self.assertEqual(obj.location, Point(-22.2878573, -49.0905487))
+    assert obj.city == 'Bauru'
+    assert obj.location == Point(-22.2878573, -49.0905487, srid=4326)
