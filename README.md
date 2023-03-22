@@ -5,15 +5,18 @@ django-location-field
 
 Let users pick locations using a map widget and store its latitude and longitude.
 
-**Stable version:** [django-location-field==2.1.1](https://pypi.python.org/pypi/django-location-field/2.1.1)  
 **Documentation:** [https://django-location-field.readthedocs.io/en/latest/](https://django-location-field.readthedocs.io/en/latest/)  
 **License:** MIT
 
 Status
 --
 
-[![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field) [![Documentation Status](https://readthedocs.org/projects/django-location-field/badge/?version=latest)](https://django-location-field.readthedocs.io/en/latest/?badge=latest)
- [![PyPI - Downloads!](https://img.shields.io/pypi/dm/django-location-field?color=blue)](https://pypi.org/project/django-location-field/) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/caioariede)
+[![PyPI!](https://img.shields.io/pypi/v/django-location-field)](https://pypi.org/project/django-location-field/)
+[![PyPI - Downloads!](https://img.shields.io/pypi/dm/django-location-field?color=blue)](https://pypi.org/project/django-location-field/)
+[![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field)
+[![Documentation Status](https://readthedocs.org/projects/django-location-field/badge/?version=latest)](https://django-location-field.readthedocs.io/en/latest/?badge=latest)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-blue.svg)](https://saythanks.io/to/caioariede)
+
 
 Tests are performed with Python 2 and 3, Django 1.11 and 2, and SpatiaLite.
 
