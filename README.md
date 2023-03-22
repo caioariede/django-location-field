@@ -13,7 +13,7 @@ Status
 --
 
 [![Build Status](https://travis-ci.org/caioariede/django-location-field.svg?branch=master)](https://travis-ci.org/caioariede/django-location-field) [![Documentation Status](https://readthedocs.org/projects/django-location-field/badge/?version=latest)](https://django-location-field.readthedocs.io/en/latest/?badge=latest)
- [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/caioariede)
+ [![PyPI - Downloads!](https://img.shields.io/pypi/dm/django-location-field?color=blue)](https://pypi.org/project/django-location-field/) [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/caioariede)
 
 Tests are performed with Python 2 and 3, Django 1.11 and 2, and SpatiaLite.
 
