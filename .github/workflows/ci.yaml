@@ -1,6 +1,10 @@
-name: Python package
+name: Build
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 
 jobs:
   pre-commit:
