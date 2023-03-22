@@ -8,6 +8,7 @@ setup(
     version=VERSION,
     description="Location field for Django",
     long_description="This module provides a location field for Django applications.",
+    long_description_content_type="text/x-rst",
     author="Caio Ariede",
     author_email="caio.ariede@gmail.com",
     url="http://github.com/caioariede/django-location-field",
