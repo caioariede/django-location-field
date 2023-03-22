@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+    tags:
   pull_request:
 
 jobs:
@@ -93,3 +94,22 @@ jobs:
         run: pip install tox
       - name: Run tox
         run: tox -e ${{ matrix.toxenv }} -- --test-spatial
+
+  publish:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    needs:
+      - pre-commit
+      - test
+      - test-spatial
+      - test-Python2
+      - test-spatial-Python2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install twine
+        run: pip install twine
+      - name: Build package
+        run: ./scripts/build-package.sh
+      - name: Publish package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
