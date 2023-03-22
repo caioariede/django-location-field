@@ -5,6 +5,16 @@ Changelog
 Versions
 ========
 
+2.7.0
+-----
+
+**This is the last version to support Python 2.7**
+
+- feat: Upgraded to leaflet 1.9.3 `PR <https://github.com/caioariede/django-location-field/pull/157>`_
+- chore: New CI setup using GitHub Actions
+- chore: Codebase now is formatted with black and isort
+
+
 2.1.1
 -----
 
