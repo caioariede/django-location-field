@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-    tags:
+  release:
+    types: [created]
   pull_request:
 
 jobs:
@@ -96,7 +97,7 @@ jobs:
         run: tox -e ${{ matrix.toxenv }} -- --test-spatial
 
   publish:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    if: github.event_name == 'release' && github.event.action == 'created'
     needs:
       - pre-commit
       - test
