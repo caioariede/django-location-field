@@ -5,6 +5,12 @@ Changelog
 Versions
 ========
 
+2.7.1
+-----
+
+- fix: Remove reference to missing source map file (#168)
+
+
 2.7.0
 -----
 
