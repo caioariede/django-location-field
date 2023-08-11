@@ -196,7 +196,7 @@ var SequentialLoader = function() {
                 }
 
                 else if (this.options.searchProvider === 'nominatim') {
-                    var url = '//nominatim.openstreetmap.org/search/?format=json&q=' + address;
+                    var url = '//nominatim.openstreetmap.org/search?format=json&q=' + address;
 
                     var request = new XMLHttpRequest();
                     request.open('GET', url, true);
