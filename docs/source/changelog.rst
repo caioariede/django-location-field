@@ -5,6 +5,11 @@ Changelog
 Versions
 ========
 
+2.7.2
+-----
+
+- fix: 🐛 fix nominatim address search (#173)
+
 2.7.1
 -----
 
