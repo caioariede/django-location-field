@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install tox and any other packages
-        run: pip install tox
+        run: pip install 'tox<4.9'
       - name: Run tox
         run: tox -e ${{ matrix.toxenv }}
 
@@ -52,47 +52,7 @@ jobs:
       - name: Install gdal
         run: sudo apt-get install -y libgdal-dev libsqlite3-mod-spatialite
       - name: Install tox and any other packages
-        run: pip install tox
-      - name: Run tox
-        run: tox -e ${{ matrix.toxenv }} -- --test-spatial
-
-  test-Python2:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["2.7"]
-        toxenv: ["py27"]
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Install tox and any other packages
-        run: pip install tox
-      - name: Run tox
-        run: tox -e ${{ matrix.toxenv }}
-
-  test-spatial-Python2:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["2.7"]
-        toxenv: ["py27"]
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Update apt
-        run: sudo apt-get update
-      - name: Install gdal
-        run: sudo apt-get install -y libgdal-dev libsqlite3-mod-spatialite
-      - name: Install tox and any other packages
-        run: pip install tox
+        run: pip install 'tox<4.9'
       - name: Run tox
         run: tox -e ${{ matrix.toxenv }} -- --test-spatial
 
@@ -102,8 +62,6 @@ jobs:
       - pre-commit
       - test
       - test-spatial
-      - test-Python2
-      - test-spatial-Python2
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
