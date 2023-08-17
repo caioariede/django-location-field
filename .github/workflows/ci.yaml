@@ -52,7 +52,7 @@ jobs:
       - name: Install gdal
         run: sudo apt-get install -y libgdal-dev libsqlite3-mod-spatialite
       - name: Install tox and any other packages
-        run: pip install tox
+        run: pip install 'tox<4.9'
       - name: Run tox
         run: tox -e ${{ matrix.toxenv }} -- --test-spatial
 
