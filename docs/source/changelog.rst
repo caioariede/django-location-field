@@ -5,6 +5,12 @@ Changelog
 Versions
 ========
 
+2.7.3
+-----
+
+- fix: removed console.log calls (#176)
+- doc: documented how to release a new version
+
 2.7.2
 -----
 

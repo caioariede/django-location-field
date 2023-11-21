@@ -19,6 +19,7 @@ Contents
    tutorials
    settings
    formfields
+   releasing
    changelog
 
 
