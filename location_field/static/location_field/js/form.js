@@ -480,7 +480,6 @@ var SequentialLoader = function() {
       }
 
       var observer = new MutationObserver(function(mutations){
-      console.log(mutations);
         _findAndEnableDataLocationFields();
       });
 
