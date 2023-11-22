@@ -435,12 +435,16 @@ var SequentialLoader = function() {
             _watchBasedFields: function(map, marker) {
                 var self = this,
                     basedFields = this.options.basedFields,
+                    suffix = this.options.suffix,
                     onchangeTimer,
                     onchange = function() {
                         var values = basedFields.map(function() {
                             var value = $(this).val();
                             return value === '' ? null : value;
                         });
+                        if (suffix){
+                            values.push(suffix);
+                        }
                         var address = values.toArray().join(', ');
                         clearTimeout(onchangeTimer);
                         onchangeTimer = setTimeout(function(){
