@@ -438,7 +438,11 @@ var SequentialLoader = function() {
                     onchangeTimer,
                     onchange = function() {
                         var values = basedFields.map(function() {
-                            var value = $(this).val();
+                            var value = '';
+                            if ($(this).is('select'))
+                                value = $(this).find(":selected").text();
+                            else
+                                value = $(this).val();
                             return value === '' ? null : value;
                         });
                         var address = values.toArray().join(', ');
